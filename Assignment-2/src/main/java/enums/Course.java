@@ -3,7 +3,7 @@ package enums;
 /**
  * AVAILABLE COURSES
  */
-public enum CourseName {
+public enum Course {
     A,
     B,
     C,
