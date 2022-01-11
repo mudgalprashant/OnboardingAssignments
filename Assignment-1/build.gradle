@@ -22,6 +22,9 @@ dependencies {
     // https://projectlombok.org
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    // https://mvnrepository.com/artifact/commons-logging/commons-logging
+    implementation 'commons-logging:commons-logging:1.2'
 }
 
 test {

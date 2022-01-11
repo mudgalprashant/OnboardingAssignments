@@ -3,6 +3,8 @@ package application;
 import constants.Constant;
 import enums.Category;
 import models.Item;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import services.Taxation;
 import services.Validator;
 
@@ -15,6 +17,7 @@ import java.util.Objects;
  */
 public class ConsoleInput {
 
+    private static final Log log = LogFactory.getLog(ConsoleInput.class);
     /**
      * Add items in the itemList from console input
      * @return List of items
@@ -73,7 +76,7 @@ public class ConsoleInput {
         if (Objects.isNull(exception)) {
             item.setName(name);
         } else {
-            System.out.println(exception);
+            log.error(exception);
             inputName(item, counter);
         }
         Constant.SCANNER.close();
@@ -97,7 +100,7 @@ public class ConsoleInput {
         if (Objects.isNull(exception)){
             item.setPrice(Double.parseDouble(price));
         } else {
-            System.out.println(exception);
+            log.error(exception);
             inputPrice(item, counter);
         }
         Constant.SCANNER.close();
@@ -121,7 +124,7 @@ public class ConsoleInput {
         if (Objects.isNull(exception)){
             item.setCategory(Category.valueOf(category.toUpperCase()));
         } else {
-            System.out.println(exception);
+            log.error(exception);
             inputCategory(item, counter);
         }
         Constant.SCANNER.close();
@@ -145,7 +148,7 @@ public class ConsoleInput {
         if (Objects.isNull(exception)){
             item.setQuantity(Integer.parseInt(quantity));
         }else{
-            System.out.println(exception);
+            log.error(exception);
             inputQuantity(item, counter);
         }
         Constant.SCANNER.close();
