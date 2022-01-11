@@ -2,13 +2,15 @@ package constants;
 
 import java.util.Scanner;
 
+/**
+ * Constants for various uses
+ */
 public final class Constant {
 
-    // Scanner for console input
+    // System utility constants
     public static final Scanner SCANNER  = new Scanner(System.in);
 
     // String Constants
-    public static final String EMPTY_STRING = "";
     public static final String YES = "y";
     public static final String INVALID_ENTRY = "Invalid input! Please Try again!";
     public static final String DIVIDER = "===========================================";
@@ -30,6 +32,8 @@ public final class Constant {
 
     // Numeric Constants
     public static final int COUNTER = 1;
+    public static final int MINIMUM_PRICE = 0;
+    public static final int MINIMUM_QUANTITY = 1;
     public static final double RAW_TAX_PERCENT = 12.5;
     public static final double MANUFACTURED_TAX_PERCENT = 12.5;
     public static final double MANUFACTURED_TAX_SURCHARGE_PERCENT = 2;
@@ -39,5 +43,5 @@ public final class Constant {
     public static final double IMPORT_SURCHARGE_TAX_PERCENT = 5;
     public static final double IMPORT_SURCHARGE_LIMIT_1_TAX = 5;
     public static final double IMPORT_SURCHARGE_LIMIT_2_TAX = 10;
-
+    public static final double DIVISOR_FOR_PERCENT = 100;
 }

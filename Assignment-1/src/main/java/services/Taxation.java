@@ -1,12 +1,18 @@
 package services;
 import constants.Constant;
-import entities.Item;
-import enums.*;
+import models.Item;
 
-// Calculates and functions tax
+/**
+ * The type Taxation.
+ * Handles tax functionalities
+ */
 public class Taxation {
 
-    // Calculate tax according to category
+    /**
+     * Calculate tax.
+     *
+     * @param item the item for which tax is to calculated
+     */
     public static void calculateTax(Item item) {
 
         // Tax for various categories
@@ -15,30 +21,34 @@ public class Taxation {
         double surcharge;
         double importDuty;
 
-        if (item.getCategory() == Category.RAW){
+        switch(item.getCategory()){
+            case RAW:
 
-            // Raw category tax
-            tax = item.getPrice() * Constant.RAW_TAX_PERCENT / 100;
+                tax = item.getPrice() * Constant.RAW_TAX_PERCENT / Constant.DIVISOR_FOR_PERCENT;
+                item.setTax(tax);
+                break;
 
-        }else if (item.getCategory() == Category.MANUFACTURED){
+            case MANUFACTURED:
 
-            // Manufactured Category tax
-            baseTax = item.getPrice() * Constant.MANUFACTURED_TAX_PERCENT / 100;
-            surcharge = (item.getPrice() + baseTax) * Constant.MANUFACTURED_TAX_SURCHARGE_PERCENT / 100;
-            tax = baseTax + surcharge;
+                baseTax = item.getPrice() * Constant.MANUFACTURED_TAX_PERCENT / Constant.DIVISOR_FOR_PERCENT;
+                surcharge = (item.getPrice() + baseTax) * Constant.MANUFACTURED_TAX_SURCHARGE_PERCENT / Constant.DIVISOR_FOR_PERCENT;
+                tax = baseTax + surcharge;
+                item.setTax(tax);
+                break;
 
-        }else{
-            // Imported Category tax
-            importDuty = item.getPrice() * Constant.IMPORT_DUTY_PERCENT / 100;
-            if (item.getPrice() + importDuty <= Constant.IMPORT_SURCHARGE_LIMIT_1){
-                surcharge = Constant.IMPORT_SURCHARGE_LIMIT_1_TAX;
-            }else if (item.getPrice() + importDuty <= Constant.IMPORT_SURCHARGE_LIMIT_2){
-                surcharge = Constant.IMPORT_SURCHARGE_LIMIT_2_TAX;
-            }else{
-                surcharge = (item.getPrice() + importDuty) * Constant.IMPORT_SURCHARGE_TAX_PERCENT / 100;
-            }
-            tax = importDuty + surcharge;
+            case IMPORTED:
+
+                importDuty = item.getPrice() * Constant.IMPORT_DUTY_PERCENT / Constant.DIVISOR_FOR_PERCENT;
+                if (item.getPrice() + importDuty <= Constant.IMPORT_SURCHARGE_LIMIT_1) {
+                    surcharge = Constant.IMPORT_SURCHARGE_LIMIT_1_TAX;
+                } else if (item.getPrice() + importDuty <= Constant.IMPORT_SURCHARGE_LIMIT_2) {
+                    surcharge = Constant.IMPORT_SURCHARGE_LIMIT_2_TAX;
+                } else {
+                    surcharge = (item.getPrice() + importDuty) * Constant.IMPORT_SURCHARGE_TAX_PERCENT / Constant.DIVISOR_FOR_PERCENT;
+                }
+                tax = importDuty + surcharge;
+                item.setTax(tax);
+                break;
         }
-        item.setTax(tax);
     }
 }

@@ -1,17 +1,21 @@
 package application;
 
-import entities.Item;
+import models.Item;
 import java.util.ArrayList;
 
-// Application is Root class of the project
+/**
+ * Root class of the project
+ */
 public class Application {
     public static void main(String[] args) {
 
-        // Input to list
-        ArrayList<Item> itemList = ConsoleInput.inputItems();
+        //Input to list of items
+        final ConsoleInput consoleInput = new ConsoleInput();
+        final ArrayList<Item> itemList = consoleInput.inputItems();
 
-        // List to output with tax
-        ConsoleOutput.printTaxInfo(itemList);
+        //List of items to Output
+        final ConsoleOutput consoleOutput = new ConsoleOutput();
+        consoleOutput.printTaxInfo(itemList);
 
     }
 }

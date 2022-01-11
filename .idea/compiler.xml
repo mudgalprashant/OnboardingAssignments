@@ -12,4 +12,9 @@
       </profile>
     </annotationProcessing>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Assignment-1.main" options="--add-exports jdk.scripting.nashorn/jdk.nashorn.internal.runtime.regexp.joni=ALL-UNNAMED" />
+    </option>
+  </component>
 </project>

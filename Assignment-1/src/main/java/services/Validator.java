@@ -1,15 +1,23 @@
 package services;
-import constants.*;
-import enums.*;
-import exceptions.*;
 
-// Validate input format
+import constants.Constant;
+import enums.Category;
+import exceptions.InvalidEntryException;
+
+/**
+ * The type Validator for console input validations.
+ */
 public class Validator {
 
-    // Validate input name
-    public static Exception validateName(String name){
+    /**
+     * Validate input name.
+     *
+     * @param name the name
+     * @return the exception
+     */
+    public Exception validateName(String name){
         try{
-            if (name.trim().equals(Constant.EMPTY_STRING)) {
+            if (name.isBlank()) {
                 throw new InvalidEntryException(Constant.INVALID_ENTRY);
             }
         }catch(InvalidEntryException invalidEntryException){
@@ -18,11 +26,16 @@ public class Validator {
         return null;
     }
 
-    // Validate input Price
-    public static Exception validatePrice(String price) {
+    /**
+     * Validate validate price.
+     *
+     * @param price the price
+     * @return the exception
+     */
+    public Exception validatePrice(String price) {
         try {
-            double numericPrice = Double.parseDouble(price);
-            if (numericPrice < 0) {
+            final double numericPrice = Double.parseDouble(price);
+            if (numericPrice < Constant.MINIMUM_PRICE) {
                 throw new InvalidEntryException(Constant.INVALID_ENTRY);
             }
         } catch (NumberFormatException | InvalidEntryException invalidEntryException) {
@@ -31,8 +44,13 @@ public class Validator {
         return null;
     }
 
-    // Validate input category
-    public static Exception validateCategory(String category){
+    /**
+     * Validate input Category.
+     *
+     * @param category the category
+     * @return the exception
+     */
+    public Exception validateCategory(String category){
         try {
             Category.valueOf(category.toUpperCase());
         }catch(IllegalArgumentException invalidEntryException){
@@ -41,11 +59,16 @@ public class Validator {
         return null;
     }
 
-    // Validate input quantity
-    public static Exception validateQuantity(String quantity){
+    /**
+     * Validate input quantity.
+     *
+     * @param quantity the quantity
+     * @return the exception
+     */
+    public Exception validateQuantity(String quantity){
         try{
-            int numericQuantity = Integer.parseInt(quantity);
-            if (numericQuantity < 0){
+            final int numericQuantity = Integer.parseInt(quantity);
+            if (numericQuantity < Constant.MINIMUM_QUANTITY){
                 throw new InvalidEntryException(Constant.INVALID_ENTRY);
             }
         }catch(NumberFormatException | InvalidEntryException invalidEntryException){

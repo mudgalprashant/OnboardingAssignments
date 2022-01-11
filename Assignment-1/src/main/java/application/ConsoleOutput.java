@@ -2,13 +2,20 @@ package application;
 import java.util.*;
 
 import constants.*;
-import entities.*;
+import models.*;
 
-// Controls the output on Console
+/**
+ * Controls output on Console
+ */
 public class ConsoleOutput {
 
-    // Prints tax info of all items available
-    public static int printTaxInfo( ArrayList<Item> itemList ){
+    /**
+     * Prints tax info of all items
+     *
+     * @param itemList : list of items
+     * @return 0 to confirm proper working
+     */
+    public int printTaxInfo( ArrayList<Item> itemList ){
         int counter = Constant.COUNTER;
         for (Item item: itemList){
             System.out.printf(Constant.INFO_OUTPUT_TEXT,counter++);

@@ -1,18 +1,23 @@
 package services;
 
-import entities.Item;
+import models.Item;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import enums.*;
+import enums.Category;
 
-// Test Taxation service
+/**
+ * Test Taxation service.
+ */
 class TaxationTest {
 
+    /**
+     * Calculate tax.
+     */
     @Test
     void calculateTax() {
 
         // Raw category tax calculation test
-        Item item = new Item();
+        Item item = Item.builder().build();
         item.setName("Iron");
         item.setPrice(1000);
         item.setCategory(Category.RAW);

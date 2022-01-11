@@ -1,8 +1,15 @@
 package exceptions;
 
-// Exception for invalid entry in console input
+/**
+ * The type Invalid entry exception.
+ */
 public class InvalidEntryException extends Exception {
-    public InvalidEntryException (String s){
-        super(s);
+    /**
+     * Instantiates a new Invalid entry exception.
+     *
+     * @param string the string for Exception Description
+     */
+    public InvalidEntryException (String string){
+        super(string);
     }
 }

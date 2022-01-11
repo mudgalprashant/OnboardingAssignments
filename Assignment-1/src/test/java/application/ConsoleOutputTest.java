@@ -1,10 +1,12 @@
 package application;
 
-import java.util.*;
-import entities.*;
-import enums.*;
+
+import models.Item;
+import enums.Category;
 import org.junit.jupiter.api.Test;
-import services.*;
+import services.Taxation;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,11 +15,16 @@ class ConsoleOutputTest {
     @Test
     void printTaxInfo() {
 
-        // List of test items
+
+        /**
+         * List of test items
+         */
         ArrayList<Item> itemList = new ArrayList<>();
 
-        // First item of list
-        Item item1 = new Item();
+        /**
+         * First item of the list
+         */
+        Item item1 = Item.builder().build();
         item1.setName("Iron");
         item1.setPrice(1000);
         item1.setCategory(Category.IMPORTED);
@@ -25,16 +32,18 @@ class ConsoleOutputTest {
         Taxation.calculateTax(item1);
         itemList.add(item1);
 
-        // second item of list
-        Item item2 = new Item();
+        /**
+         * Second Item of the list
+         */
+        Item item2 = Item.builder().build();
         item2.setName("Steel");
         item2.setPrice(2000);
         item2.setCategory(Category.IMPORTED);
         item2.setQuantity(10);
         Taxation.calculateTax(item2);
         itemList.add(item2);
-
-        assertEquals(0, ConsoleOutput.printTaxInfo(itemList));
+        ConsoleOutput consoleOutput = new ConsoleOutput();
+        assertEquals(0, consoleOutput.printTaxInfo(itemList));
 
     }
 }
