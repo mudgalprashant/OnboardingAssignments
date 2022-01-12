@@ -15,6 +15,7 @@ class ConsoleOutputTest {
     @Test
     void printTaxInfo() {
 
+        Taxation taxation = new Taxation();
 
         /**
          * List of test items
@@ -29,7 +30,7 @@ class ConsoleOutputTest {
         item1.setPrice(1000);
         item1.setCategory(Category.IMPORTED);
         item1.setQuantity(20);
-        Taxation.calculateTax(item1);
+        taxation.calculateTax(item1);
         itemList.add(item1);
 
         /**
@@ -40,7 +41,7 @@ class ConsoleOutputTest {
         item2.setPrice(2000);
         item2.setCategory(Category.IMPORTED);
         item2.setQuantity(10);
-        Taxation.calculateTax(item2);
+        taxation.calculateTax(item2);
         itemList.add(item2);
         ConsoleOutput consoleOutput = new ConsoleOutput();
         assertEquals(0, consoleOutput.printTaxInfo(itemList));

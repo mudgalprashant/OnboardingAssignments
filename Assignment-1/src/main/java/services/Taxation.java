@@ -13,7 +13,7 @@ public class Taxation {
      *
      * @param item the item for which tax is to calculated
      */
-    public static void calculateTax(Item item) {
+    public void calculateTax(Item item) {
 
         // Tax for various categories
         double tax;

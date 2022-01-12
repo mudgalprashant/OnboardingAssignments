@@ -15,6 +15,7 @@ class TaxationTest {
      */
     @Test
     void calculateTax() {
+        final Taxation taxation = new Taxation();
 
         // Raw category tax calculation test
         Item item = Item.builder().build();
@@ -22,7 +23,7 @@ class TaxationTest {
         item.setPrice(1000);
         item.setCategory(Category.RAW);
         item.setQuantity(10);
-        Taxation.calculateTax(item);
+        taxation.calculateTax(item);
         assertEquals(125, item.getTax());
 
         // Manufactured category tax calculation test
@@ -30,7 +31,7 @@ class TaxationTest {
         item.setPrice(1000);
         item.setCategory(Category.MANUFACTURED);
         item.setQuantity(10);
-        Taxation.calculateTax(item);
+        taxation.calculateTax(item);
         assertEquals(147.5, item.getTax());
 
         // Imported category tax calculation test
@@ -39,7 +40,7 @@ class TaxationTest {
         item.setPrice(10);
         item.setCategory(Category.IMPORTED);
         item.setQuantity(10);
-        Taxation.calculateTax(item);
+        taxation.calculateTax(item);
         assertEquals(6, item.getTax());
 
         // Imported category tax calculation test
@@ -48,7 +49,7 @@ class TaxationTest {
         item.setPrice(100);
         item.setCategory(Category.IMPORTED);
         item.setQuantity(10);
-        Taxation.calculateTax(item);
+        taxation.calculateTax(item);
         assertEquals(20, item.getTax());
 
         // Imported category tax calculation test
@@ -57,7 +58,7 @@ class TaxationTest {
         item.setPrice(1000);
         item.setCategory(Category.IMPORTED);
         item.setQuantity(10);
-        Taxation.calculateTax(item);
+        taxation.calculateTax(item);
         assertEquals(155, item.getTax());
 
     }

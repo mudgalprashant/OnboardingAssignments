@@ -29,6 +29,7 @@ public class ConsoleInput {
 
         String repeat;
         int counter = Constant.COUNTER;
+        final Taxation taxation = new Taxation();
 
         //Input all items
         do {
@@ -41,13 +42,13 @@ public class ConsoleInput {
             inputQuantity(item, counter);
 
             //Add tax to item
-            Taxation.calculateTax(item);
+            taxation.calculateTax(item);
 
             //Add item to list
             itemList.add(item);
 
             //Check for another item
-            System.out.print(Constant.REPEAT_INPUT_TEXT);
+            log.info(Constant.REPEAT_INPUT_TEXT);
             repeat = Constant.SCANNER.nextLine();
             counter++;
 
@@ -67,7 +68,7 @@ public class ConsoleInput {
     private void inputName(Item item, int counter) {
 
         // Input name
-        System.out.printf(Constant.NAME_INPUT_TEXT, counter);
+        log.info(String.format(Constant.NAME_INPUT_TEXT, counter));
         final String name = Constant.SCANNER.nextLine();
 
         // Validate name
@@ -91,7 +92,7 @@ public class ConsoleInput {
     private void inputPrice(Item item, int counter) {
 
         // Input price
-        System.out.printf(Constant.PRICE_INPUT_TEXT, counter);
+        log.info(String.format(Constant.PRICE_INPUT_TEXT, counter));
         final String price = Constant.SCANNER.nextLine();
 
         // Validate price
@@ -115,7 +116,7 @@ public class ConsoleInput {
     private void inputCategory(Item item, int counter) {
 
         // Input category
-        System.out.printf(Constant.CATEGORY_INPUT_TEXT, counter);
+        log.info(String.format(Constant.CATEGORY_INPUT_TEXT, counter));
         final String category = Constant.SCANNER.nextLine();
 
         // Validate category
@@ -139,7 +140,7 @@ public class ConsoleInput {
     private void inputQuantity(Item item, int counter){
 
         // Input quantity
-        System.out.printf(Constant.QUANTITY_INPUT_TEXT, counter);
+        log.info(String.format(Constant.QUANTITY_INPUT_TEXT, counter));
         final String quantity = Constant.SCANNER.nextLine();
 
         // Validate quantity
