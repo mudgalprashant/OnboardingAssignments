@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="services.ValidatorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-01-13T08:51:16" hostname="Administrators-MacBook-Pro.local" time="0.111">
+  <properties/>
+  <testcase name="validateAge()" classname="services.ValidatorTest" time="0.068"/>
+  <testcase name="isCourseNotRepeated()" classname="services.ValidatorTest" time="0.004"/>
+  <testcase name="validateAddress()" classname="services.ValidatorTest" time="0.004"/>
+  <testcase name="validateCourse()" classname="services.ValidatorTest" time="0.011"/>
+  <testcase name="validateRollNumber()" classname="services.ValidatorTest" time="0.007"/>
+  <testcase name="validateName()" classname="services.ValidatorTest" time="0.004"/>
+  <testcase name="validateTask()" classname="services.ValidatorTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Jan 13, 2022 2:21:16 PM services.Validator validateAge
+SEVERE: exceptions.NonPositiveAgeException: Please enter a positive numeric age!!
+Jan 13, 2022 2:21:16 PM services.Validator validateAge
+SEVERE: java.lang.NumberFormatException: For input string: " "
+Jan 13, 2022 2:21:16 PM services.Validator validateAge
+SEVERE: java.lang.NumberFormatException: For input string: "abc"
+Jan 13, 2022 2:21:16 PM services.Validator isCourseNotRepeated
+SEVERE: exceptions.RepeatedCourseException: Entered course is already selected. Please select another course!!
+Jan 13, 2022 2:21:16 PM services.Validator isCourseNotRepeated
+SEVERE: exceptions.RepeatedCourseException: Entered course is already selected. Please select another course!!
+Jan 13, 2022 2:21:16 PM services.Validator validateAddress
+SEVERE: exceptions.BlankAddressException: Please enter a non-empty address!!
+Jan 13, 2022 2:21:16 PM services.Validator validateCourse
+SEVERE: java.lang.IllegalArgumentException: No enum constant enums.Course.   
+Jan 13, 2022 2:21:16 PM services.Validator validateCourse
+SEVERE: java.lang.IllegalArgumentException: No enum constant enums.Course.123
+Jan 13, 2022 2:21:16 PM services.Validator validateCourse
+SEVERE: java.lang.IllegalArgumentException: No enum constant enums.Course.ABCD
+Jan 13, 2022 2:21:16 PM services.Validator validateRollNumber
+SEVERE: exceptions.RepeatedRollNumberException: Entered roll no. already exists. Please enter a unique roll no.!!
+Jan 13, 2022 2:21:16 PM services.Validator validateRollNumber
+SEVERE: exceptions.NonNumericRollNumberException: Please enter a numeric roll No.!!
+Jan 13, 2022 2:21:16 PM services.Validator validateName
+SEVERE: exceptions.BlankNameException: Please enter a non-empty alphabetic name only!!
+Jan 13, 2022 2:21:16 PM services.Validator validateName
+SEVERE: exceptions.BlankNameException: Please enter a non-empty alphabetic name only!!
+Jan 13, 2022 2:21:16 PM services.Validator validateName
+SEVERE: exceptions.NonAlphabeticNameException: Please enter a non-empty alphabetic name only!!
+Jan 13, 2022 2:21:16 PM services.Validator validateTask
+SEVERE: exceptions.InvalidTaskException: Please enter one one of the mentioned numbers to perform a task
+Jan 13, 2022 2:21:16 PM services.Validator validateTask
+SEVERE: exceptions.InvalidTaskException: Please enter one one of the mentioned numbers to perform a task
+Jan 13, 2022 2:21:16 PM services.Validator validateTask
+SEVERE: java.lang.NumberFormatException: For input string: "random"
+Jan 13, 2022 2:21:16 PM services.Validator validateTask
+SEVERE: java.lang.NumberFormatException: For input string: ""
+]]></system-err>
+</testsuite>

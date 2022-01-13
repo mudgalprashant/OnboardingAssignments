@@ -4,6 +4,7 @@ import constants.Constant;
 import enums.Course;
 
 import java.util.HashSet;
+import java.util.PriorityQueue;
 
 import models.User;
 import org.apache.commons.logging.Log;
@@ -20,13 +21,14 @@ public class AddUserDetails {
   /**
    * Add all details user.
    *
-   * @param user the user
+   * @param userList the user list
+   * @param user     the user
    */
-  public void addAllDetails(User user) {
+  public void addAllDetails(PriorityQueue<User> userList, User user) {
     addName(user);
     addAge(user);
     addAddress(user);
-    addRollNumber(user);
+    addRollNumber(userList, user);
     addCourses(user);
   }
 
@@ -94,21 +96,21 @@ public class AddUserDetails {
   /**
    * Add roll no. to user details.
    *
-   * @param user the user
+   * @param userList the user list
+   * @param user     the user
    */
-  // todo: repeated roll no. not checked
-  public void addRollNumber(User user) {
+  public void addRollNumber(PriorityQueue<User> userList, User user) {
 
     // Input roll No. from console
     System.out.println(Constant.INPUT_ROLL_NUMBER_TEXT);
     String rollNumber = Constant.SCANNER.nextLine();
 
     // Check for valid roll No. and if invalid roll No. is entered, ask for input again
-    if (validator.validateRollNumber(rollNumber)) {
+    if (validator.validateRollNumber(userList, rollNumber)) {
       user.setRollNumber(rollNumber);
     } else {
       log.error(Constant.INVALID_ROLL_NUMBER_TEXT);
-      addRollNumber(user);
+      addRollNumber(userList, user);
     }
   }
 

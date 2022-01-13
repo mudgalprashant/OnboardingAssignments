@@ -20,10 +20,16 @@ public class Constant {
           + "To Exit enter 0\n";
 
   /**
+   * User data display header
+   */
+  public static final String USER_DATA_DISPLAY_FORMAT =
+      "%-20s    %-16s    %-3s    %-30s   %s";
+
+  /**
    * Utility strings.
    */
   public static final String DIVIDER =
-      "===========================================================";
+      "--------------------------------------------------------------------------------------------------";
 
   /**
    * Input message strings.
@@ -49,6 +55,31 @@ public class Constant {
    * The constant INPUT_COURSE_NAME_TEXT.
    */
   public static final String INPUT_COURSE_NAME_TEXT = "Enter user's #%d course: ";
+  /**
+   * The constant INPUT_ROLL_NUMBER_TO_DELETE.
+   */
+  public static final String INPUT_ROLL_NUMBER_TO_DELETE = "Enter the roll no. of User to be deleted:";
+  /**
+   * The constant ASK_TO_SAVE_TEXT.
+   */
+  public static final String ASK_TO_SAVE_TEXT =
+      "Do you want to save any unsaved data before exiting the application?(y/n): ";
+  /**
+   * The constant YES.
+   */
+  public static final String YES = "y";
+  /**
+   * The constant SUCCESSFUL_EXIT_TEXT.
+   */
+  public static final String SUCCESSFUL_EXIT_TEXT = "Exit Successful";
+  /**
+   * The constant SUCCESSFUL_DELETION_TEXT.
+   */
+  public static final String SUCCESSFUL_DELETION_TEXT = "Deletion Successful";
+  /**
+   * The constant ROLL_NUMBER_DOES_NOT_EXIST.
+   */
+  public static final String ROLL_NUMBER_DOES_NOT_EXIST = "Entered roll no. does not exist";
 
   /**
    * Invalid entry texts.
@@ -127,5 +158,5 @@ public class Constant {
    * File paths.
    */
   public static final String USER_DATA_FILE_PATH = "data";
-  
+
 }

@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
 public class LoadUserDetails {
 
   // logger object
-  private static final Log log = LogFactory.getLog(SaveUserDetails.class);
+  private static final Log log = LogFactory.getLog(LoadUserDetails.class);
 
   /**
    * Instantiates a new Load user details.
@@ -40,21 +40,21 @@ public class LoadUserDetails {
 
         FileInputStream fileInputStream = new FileInputStream(userDataFile);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        User loadedUserList = (User) objectInputStream.readObject();
+        while (true) {
+          Object loadedObject = objectInputStream.readObject();
+          if (loadedObject == null) {
+            break;
+          }
+          User loadedUser = (User) loadedObject;
 
-        //userList.addAll(loadedUserList);
-        userList.add(loadedUserList);
+          userList.add(loadedUser);
+        }
 
         fileInputStream.close();
         objectInputStream.close();
       }
-    } catch (StreamCorruptedException | ClassNotFoundException | FileNotFoundException e) {
-      log.error(e);
-    } catch (EOFException ignored) {
-      System.out.print("");
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (ClassNotFoundException | IOException exception) {
+      log.error(exception);
     }
-
   }
 }

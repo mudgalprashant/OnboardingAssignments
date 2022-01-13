@@ -3,16 +3,14 @@ package services;
 import constants.Constant;
 import enums.Course;
 
-import exceptions.BlankAddressException;
-import exceptions.BlankNameException;
-import exceptions.InvalidTaskException;
-import exceptions.NonAlphabeticNameException;
-import exceptions.NonNumericRollNumberException;
-import exceptions.NonPositiveAgeException;
-import exceptions.RepeatedCourseException;
+import exceptions.*;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 
+import models.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -101,17 +99,24 @@ public class Validator {
   }
 
   /**
-   * Validate roll no. against empty or non-numeric entry.
+   * Validate roll no. against empty, repeated or non-numeric entry.
    *
+   * @param userList   the user list
    * @param rollNumber the roll number
    * @return the boolean
    */
-  public boolean validateRollNumber(String rollNumber) {
+  public boolean validateRollNumber(PriorityQueue<User> userList, String rollNumber) {
     try {
       if (!rollNumber.matches(Constant.REGEX_FOR_NUMERIC_STRING)) {
         throw new NonNumericRollNumberException(Constant.INVALID_ROLL_NUMBER_TEXT);
       }
-    } catch (NonNumericRollNumberException exception) {
+      List<User> matchedUsers = userList.stream()
+          .filter(user -> user.getRollNumber().equals(rollNumber))
+          .collect(Collectors.toList());
+      if (matchedUsers.size() > 0) {
+        throw new RepeatedRollNumberException(Constant.REPEATED_ROLL_NUMBER_TEXT);
+      }
+    } catch (NonNumericRollNumberException | RepeatedRollNumberException exception) {
       log.error(exception);
       return false;
     }

@@ -8,10 +8,7 @@ import java.util.PriorityQueue;
 import models.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import services.AddUserDetails;
-import services.LoadUserDetails;
-import services.SaveUserDetails;
-import services.Validator;
+import services.*;
 
 
 /**
@@ -37,7 +34,7 @@ public class ApplicationUtility {
    * Perform tasks.
    */
   public void performTasks() {
-
+    System.out.println(Constant.DIVIDER);
     System.out.println(Constant.PRINT_MENU_TEXT);
 
     final String inputTask = Constant.SCANNER.nextLine();
@@ -59,6 +56,12 @@ public class ApplicationUtility {
           saveUsers();
           break;
         case 0:
+          System.out.println(Constant.ASK_TO_SAVE_TEXT);
+          final String save = Constant.SCANNER.nextLine();
+          if (save.equalsIgnoreCase(Constant.YES)) {
+            saveUsers();
+          }
+          System.out.println(Constant.SUCCESSFUL_EXIT_TEXT);
           return;
         default:
           break;
@@ -72,18 +75,22 @@ public class ApplicationUtility {
   private void addUser() {
     User user = User.builder().build();
     AddUserDetails addUserDetails = new AddUserDetails();
-    addUserDetails.addAllDetails(user);
+    addUserDetails.addAllDetails(userList, user);
     userList.add(user);
   }
 
   private void displayUsers() { // Todo
-    System.out.println(userList);
+    final DisplayUserDetails displayUserDetails = new DisplayUserDetails();
+    displayUserDetails.printUserList(userList);
   }
 
   private void saveUsers() {
     new SaveUserDetails(userDataFile, userList);
   }
 
-  private void deleteUser() { //Todo
+  private void deleteUser() {
+    System.out.println(Constant.INPUT_ROLL_NUMBER_TO_DELETE);
+    String rollNumber = Constant.SCANNER.nextLine();
+    new DeleteUserDetails(userList, rollNumber);
   }
 }
