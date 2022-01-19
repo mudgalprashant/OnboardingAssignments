@@ -27,4 +27,4 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 ### VS Code ###
-.vscode/
+.vscode/!/Assignment-2/gradle/wrapper/gradle-wrapper.jar
