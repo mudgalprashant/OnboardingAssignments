@@ -23,6 +23,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation 'mysql:mysql-connector-java:8.0.27'
+
     // https://mvnrepository.com/artifact/commons-logging/commons-logging
     implementation 'commons-logging:commons-logging:1.2'
 }
