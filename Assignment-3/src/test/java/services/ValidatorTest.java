@@ -8,8 +8,18 @@ import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The type Validator test.
+ */
 class ValidatorTest {
+  /**
+   * The Validator.
+   */
   final Validator validator = new Validator();
+
+  /**
+   * Validate node id.
+   */
   @Test
   void validateNodeId() {
 
@@ -21,6 +31,9 @@ class ValidatorTest {
 
   }
 
+  /**
+   * Validate task.
+   */
   @Test
   void validateTask() {
     // Tests for valid tasks
@@ -53,6 +66,9 @@ class ValidatorTest {
     assertFalse(validator.validateTask(task));
   }
 
+  /**
+   * Validate dependency.
+   */
   @Test
   void validateDependency() {
 

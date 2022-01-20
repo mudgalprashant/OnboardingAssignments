@@ -9,15 +9,36 @@ import services.Validator;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * The type Node.
+ */
 @Builder
 @Data
 public class Node {
+  /**
+   * The node ID.
+   */
   private String nodeId;
+  /**
+   * The name.
+   */
   private String name;
+  /**
+   * The Metadata.
+   */
   private HashMap<String, String> metadata;
+  /**
+   * The Parent IDs.
+   */
   private HashSet<String> parentIds;
+  /**
+   * The Child IDs.
+   */
   private HashSet<String> childIds;
 
+  /**
+   * Add node ID.
+   */
   public void addNodeId() {
     // Input node Id
     System.out.println(Constant.NODE_ID_INPUT_TEXT);
@@ -32,6 +53,9 @@ public class Node {
     }
   }
 
+  /**
+   * Add name.
+   */
   public void addName() {
     // Input and set node name
     System.out.println(Constant.NODE_NAME_INPUT_TEXT);
@@ -39,8 +63,11 @@ public class Node {
     this.setName(name);
   }
 
+  /**
+   * Add metadata.
+   */
   public void addMetadata() {
-    // Ask for metadata confirmation
+    // Confirm if user wants to add metadata
     System.out.println(Constant.METADATA_QUERY_TEXT);
     final String confirmation = Constant.SCANNER.nextLine().trim();
 

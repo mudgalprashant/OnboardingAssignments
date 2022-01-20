@@ -28,3 +28,4 @@ build/
 !**/src/test/**/build/
 ### VS Code ###
 .vscode/
+!/Assignment-3/gradle/wrapper/gradle-wrapper.properties

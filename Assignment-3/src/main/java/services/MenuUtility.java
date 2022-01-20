@@ -1,4 +1,4 @@
-package application;
+package services;
 
 import constants.Constant;
 import models.FamilyTree;
@@ -6,13 +6,21 @@ import models.Node;
 import services.Validator;
 
 import java.util.HashSet;
+import java.util.Objects;
 
+/**
+ * The type Menu utility.
+ */
 public class MenuUtility {
 
   private final FamilyTree familyTree = new FamilyTree();
 
+  /**
+   * Perform tasks.
+   */
   public void performTasks() {
 
+    // Print menu
     System.out.println(Constant.DIVIDER);
     System.out.println(Constant.PRINT_MENU_TEXT);
 
@@ -21,7 +29,9 @@ public class MenuUtility {
 
     if (validator.validateTask(inputTask)) {
       final int taskNumber = Integer.parseInt(inputTask);
+
       switch (taskNumber) {
+
         case 1: // Add node
           Node node = Node.builder().build();
           node.addNodeId();
@@ -81,7 +91,7 @@ public class MenuUtility {
           }
 
           HashSet<String> parentNodeIds = familyTree.getParents(nodeId);
-          if (parentNodeIds != null) {
+          if (!Objects.isNull(parentNodeIds)) {
             for (String parentNodeId : parentNodeIds) {
               System.out.println(familyTree.graph.get(parentNodeId));
             }
@@ -100,7 +110,7 @@ public class MenuUtility {
             }
           }
           HashSet<String> childNodeIds = familyTree.getChildren(nodeId);
-          if (childNodeIds != null) {
+          if (!Objects.isNull(childNodeIds)) {
             for (String childNodeId : childNodeIds) {
               System.out.println(familyTree.graph.get(childNodeId));
             }
