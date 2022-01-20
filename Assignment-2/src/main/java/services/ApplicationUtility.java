@@ -1,4 +1,4 @@
-package controller;
+package services;
 
 import constants.Constant;
 
@@ -6,8 +6,6 @@ import java.io.File;
 import java.util.PriorityQueue;
 
 import models.User;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import services.*;
 
 
@@ -17,11 +15,14 @@ import services.*;
 public class ApplicationUtility {
 
   private final File userDataFile = new File(
-      Constant.USER_DATA_FILE_PATH + File.separator + Constant.USER_DATA_FILE);
+      (new StringBuilder())
+          .append(Constant.USER_DATA_FILE_PATH)
+          .append(File.separator)
+          .append(Constant.USER_DATA_FILE)
+          .toString());
 
   private final PriorityQueue<User> userList = new PriorityQueue<>();
 
-  private static final Log log = LogFactory.getLog(ApplicationUtility.class);
 
   /**
    * Instantiates a new Application utility.
@@ -79,7 +80,7 @@ public class ApplicationUtility {
     userList.add(user);
   }
 
-  private void displayUsers() { // Todo
+  private void displayUsers() {
     final DisplayUserDetails displayUserDetails = new DisplayUserDetails();
     displayUserDetails.printUserList(userList);
   }

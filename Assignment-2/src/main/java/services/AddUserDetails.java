@@ -122,7 +122,7 @@ public class AddUserDetails {
   public void addCourses(User user) {
 
     // Show course options
-    System.out.printf((Constant.COURSE_OPTIONS_TEXT) + "%n", Constant.NUMBER_OF_COURSES);
+    System.out.printf((Constant.COURSE_OPTIONS_TEXT), Constant.NUMBER_OF_COURSES);
     for (Course c : Course.values()) {
       System.out.println(c);
     }

@@ -29,6 +29,7 @@ public class Validator {
    * @return the boolean
    */
   public boolean validateTask(String task) {
+    boolean isValid = true;
     try {
       final int taskNumber = Integer.parseInt(task);
       if (taskNumber >= Constant.NUMBER_OF_TASKS || taskNumber < 0) {
@@ -36,9 +37,9 @@ public class Validator {
       }
     } catch (InvalidTaskException | NumberFormatException exception) {
       log.error(exception);
-      return false;
+      isValid = false;
     }
-    return true;
+    return isValid;
   }
 
   /**
@@ -48,17 +49,18 @@ public class Validator {
    * @return the boolean
    */
   public boolean validateName(String name) {
+    boolean isValid = true;
     try {
       if (name.isBlank()) {
         throw new BlankNameException(Constant.INVALID_NAME_TEXT);
       } else if (!name.matches(Constant.REGEX_FOR_ALPHABETIC_STRING_WITH_SPACES)) {
         throw new NonAlphabeticNameException(Constant.INVALID_NAME_TEXT);
       }
-      return true;
     } catch (BlankNameException | NonAlphabeticNameException exception) {
       log.error(exception);
-      return false;
+      isValid = false;
     }
+    return isValid;
   }
 
   /**
@@ -68,16 +70,17 @@ public class Validator {
    * @return the boolean
    */
   public boolean validateAge(String age) {
+    boolean isValid = true;
     try {
       final int numericAge = Integer.parseInt(age);
       if (numericAge <= Constant.MINIMUM_AGE) {
         throw new NonPositiveAgeException(Constant.INVALID_AGE_TEXT);
       }
-      return true;
     } catch (NumberFormatException | NonPositiveAgeException exception) {
       log.error(exception);
-      return false;
+      isValid = false;
     }
+    return isValid;
   }
 
   /**
@@ -87,15 +90,16 @@ public class Validator {
    * @return the boolean
    */
   public boolean validateAddress(String address) {
+    boolean isValid = true;
     try {
       if (address.isBlank()) {
         throw new BlankAddressException(Constant.INVALID_ADDRESS_TEXT);
       }
-      return true;
     } catch (BlankAddressException exception) {
       log.error(exception);
-      return false;
+      isValid = false;
     }
+    return isValid;
   }
 
   /**
@@ -106,6 +110,7 @@ public class Validator {
    * @return the boolean
    */
   public boolean validateRollNumber(PriorityQueue<User> userList, String rollNumber) {
+    boolean isValid = true;
     try {
       if (!rollNumber.matches(Constant.REGEX_FOR_NUMERIC_STRING)) {
         throw new NonNumericRollNumberException(Constant.INVALID_ROLL_NUMBER_TEXT);
@@ -118,9 +123,9 @@ public class Validator {
       }
     } catch (NonNumericRollNumberException | RepeatedRollNumberException exception) {
       log.error(exception);
-      return false;
+      isValid = false;
     }
-    return true;
+    return isValid;
   }
 
   /**
@@ -130,13 +135,14 @@ public class Validator {
    * @return the boolean
    */
   public boolean validateCourse(String course) {
+    boolean isValid = true;
     try {
       Course.valueOf(course.toUpperCase());
     } catch (IllegalArgumentException exception) {
       log.error(exception);
-      return false;
+      isValid = false;
     }
-    return true;
+    return isValid;
   }
 
   /**
@@ -147,14 +153,15 @@ public class Validator {
    * @return the boolean
    */
   public boolean isCourseNotRepeated(HashSet<Course> courses, Course course) {
+    boolean isValid = true;
     try {
       if (courses.contains(course)) {
         throw new RepeatedCourseException(Constant.REPEATED_COURSE_TEXT);
       }
     } catch (RepeatedCourseException exception) {
       log.error(exception);
-      return false;
+      isValid = false;
     }
-    return true;
+    return isValid;
   }
 }

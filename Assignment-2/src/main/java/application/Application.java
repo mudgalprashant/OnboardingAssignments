@@ -1,6 +1,6 @@
 package application;
 
-import controller.ApplicationUtility;
+import services.ApplicationUtility;
 
 /**
  * Application.

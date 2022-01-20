@@ -12,12 +12,13 @@ public class Constant {
    * Print menu text.
    */
   public static final String PRINT_MENU_TEXT =
-      "Choose any of the given options to function accordingly:\n"
-          + "To Add user details enter 1 \n"
-          + "To Display user details enter 2\n"
-          + "To Delete user details enter 3\n"
-          + "To Save user details to disk enter 4\n"
-          + "To Exit enter 0\n";
+      (new StringBuilder())
+          .append("Choose any of the given options to function accordingly:\n")
+          .append("To Add user details enter 1 \n")
+          .append("To Display user details enter 2\n")
+          .append("To Delete user details enter 3\n")
+          .append("To Save user details to disk enter 4\n")
+          .append("To Exit enter 0\n").toString();
 
   /**
    * User data display header
