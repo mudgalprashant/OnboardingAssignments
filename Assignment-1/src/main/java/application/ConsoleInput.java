@@ -53,8 +53,6 @@ public class ConsoleInput {
             counter++;
 
         } while (repeat.equalsIgnoreCase(Constant.YES));
-
-        Constant.SCANNER.close();
         return itemList;
     }
 
@@ -73,14 +71,13 @@ public class ConsoleInput {
 
         // Validate name
         final Validator validator = new Validator();
-        final Exception exception = validator.validateCategory(name);
+        final Exception exception = validator.validateName(name);
         if (Objects.isNull(exception)) {
             item.setName(name);
         } else {
             log.error(exception);
             inputName(item, counter);
         }
-        Constant.SCANNER.close();
     }
 
     /**
@@ -97,14 +94,13 @@ public class ConsoleInput {
 
         // Validate price
         final Validator validator = new Validator();
-        final Exception exception = validator.validateCategory(price);
+        final Exception exception = validator.validatePrice(price);
         if (Objects.isNull(exception)){
             item.setPrice(Double.parseDouble(price));
         } else {
             log.error(exception);
             inputPrice(item, counter);
         }
-        Constant.SCANNER.close();
     }
 
     /**
@@ -128,7 +124,6 @@ public class ConsoleInput {
             log.error(exception);
             inputCategory(item, counter);
         }
-        Constant.SCANNER.close();
     }
 
     /**
@@ -152,7 +147,6 @@ public class ConsoleInput {
             log.error(exception);
             inputQuantity(item, counter);
         }
-        Constant.SCANNER.close();
     }
 
 }
