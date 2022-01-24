@@ -63,6 +63,13 @@ public class Constant {
    */
   public static final String CYCLIC_DEPENDENCY_TEXT =
       "Child-parent pair entered is invalid. It is creating cyclic dependency.";
+  /**
+   * The constant INPUT_LIMIT_REACHED.
+   */
+  public static final String INPUT_LIMIT_REACHED =
+      String.format(
+          "You have entered invalid input %d times.\nProgram Exited.",
+          Constant.INVALID_INPUT_LIMIT);
 
   /**
    * Input text Strings
@@ -131,5 +138,13 @@ public class Constant {
    * The constant NUMBER_OF_TASKS.
    */
   public static final int NUMBER_OF_TASKS = 9;
+  /**
+   * The constant INVALID_TASK_LIMIT.
+   */
+  public static final int INVALID_INPUT_LIMIT = 5;
+  /**
+   * The constant COUNTER.
+   */
+  public static final int COUNTER = 1;
 
 }
