@@ -14,6 +14,10 @@ public final class Constant {
     public static final String YES = "y";
     public static final String INVALID_ENTRY = "Invalid input! Please Try again!";
     public static final String DIVIDER = "===========================================";
+    public static final String INPUT_LIMIT_REACHED =
+        String.format(
+            "You have entered invalid input %d times.\nProgram exited.",
+            Constant.INVALID_INPUT_LIMIT);
 
     // String Constants for input
     public static final String NAME_INPUT_TEXT = "Name <enter name of item no.%d>: ";
@@ -34,6 +38,7 @@ public final class Constant {
     public static final int COUNTER = 1;
     public static final int MINIMUM_PRICE = 0;
     public static final int MINIMUM_QUANTITY = 1;
+    public static final int INVALID_INPUT_LIMIT = 5;
     public static final double RAW_TAX_PERCENT = 12.5;
     public static final double MANUFACTURED_TAX_PERCENT = 12.5;
     public static final double MANUFACTURED_TAX_SURCHARGE_PERCENT = 2;

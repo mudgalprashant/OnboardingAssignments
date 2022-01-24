@@ -33,13 +33,27 @@ public class ConsoleInput {
 
         //Input all items
         do {
+
+            int inputLimitCounter = Constant.COUNTER;
             Item item = Item.builder().build();
 
             //Input one item
-            inputName(item, counter);
-            inputPrice(item, counter);
-            inputCategory(item, counter);
-            inputQuantity(item, counter);
+            inputName(item, counter, inputLimitCounter);
+            if (Objects.isNull(item.getName())) {
+                break;
+            }
+            inputPrice(item, counter, inputLimitCounter);
+            if (item.getPrice() == 0) {
+                break;
+            }
+            inputCategory(item, counter, inputLimitCounter);
+            if (Objects.isNull(item.getCategory())) {
+                break;
+            }
+            inputQuantity(item, counter, inputLimitCounter);
+            if (item.getQuantity() == 0) {
+                break;
+            }
 
             //Add tax to item
             taxation.calculateTax(item);
@@ -63,8 +77,12 @@ public class ConsoleInput {
      * @param item : Item to take input into
      * @param counter : # of item
      */
-    private void inputName(Item item, int counter) {
+    private void inputName(Item item, int counter, int inputLimitCounter) {
 
+        if (inputLimitCounter > Constant.INVALID_INPUT_LIMIT){
+            log.info(Constant.INPUT_LIMIT_REACHED);
+            return;
+        }
         // Input name
         log.info(String.format(Constant.NAME_INPUT_TEXT, counter));
         final String name = Constant.SCANNER.nextLine();
@@ -76,7 +94,7 @@ public class ConsoleInput {
             item.setName(name);
         } else {
             log.error(exception);
-            inputName(item, counter);
+            inputName(item, counter, ++inputLimitCounter);
         }
     }
 
@@ -86,8 +104,12 @@ public class ConsoleInput {
      * @param item : Item to take input into
      * @param counter : # of item
      */
-    private void inputPrice(Item item, int counter) {
+    private void inputPrice(Item item, int counter, int inputLimitCounter) {
 
+        if (inputLimitCounter > Constant.INVALID_INPUT_LIMIT){
+            log.info(Constant.INPUT_LIMIT_REACHED);
+            return;
+        }
         // Input price
         log.info(String.format(Constant.PRICE_INPUT_TEXT, counter));
         final String price = Constant.SCANNER.nextLine();
@@ -99,7 +121,7 @@ public class ConsoleInput {
             item.setPrice(Double.parseDouble(price));
         } else {
             log.error(exception);
-            inputPrice(item, counter);
+            inputPrice(item, counter, ++inputLimitCounter);
         }
     }
 
@@ -109,8 +131,12 @@ public class ConsoleInput {
      * @param item : Item to take input into
      * @param counter : # of item
      */
-    private void inputCategory(Item item, int counter) {
+    private void inputCategory(Item item, int counter, int inputLimitCounter) {
 
+        if (inputLimitCounter > Constant.INVALID_INPUT_LIMIT){
+            log.info(Constant.INPUT_LIMIT_REACHED);
+            return;
+        }
         // Input category
         log.info(String.format(Constant.CATEGORY_INPUT_TEXT, counter));
         final String category = Constant.SCANNER.nextLine();
@@ -122,7 +148,7 @@ public class ConsoleInput {
             item.setCategory(Category.valueOf(category.toUpperCase()));
         } else {
             log.error(exception);
-            inputCategory(item, counter);
+            inputCategory(item, counter, ++inputLimitCounter);
         }
     }
 
@@ -132,8 +158,12 @@ public class ConsoleInput {
      * @param item : Item to take input into
      * @param counter : # of item
      */
-    private void inputQuantity(Item item, int counter){
+    private void inputQuantity(Item item, int counter, int inputLimitCounter){
 
+        if (inputLimitCounter > Constant.INVALID_INPUT_LIMIT){
+            log.info(Constant.INPUT_LIMIT_REACHED);
+            return;
+        }
         // Input quantity
         log.info(String.format(Constant.QUANTITY_INPUT_TEXT, counter));
         final String quantity = Constant.SCANNER.nextLine();
@@ -145,7 +175,7 @@ public class ConsoleInput {
             item.setQuantity(Integer.parseInt(quantity));
         }else{
             log.error(exception);
-            inputQuantity(item, counter);
+            inputQuantity(item, counter, ++inputLimitCounter);
         }
     }
 
