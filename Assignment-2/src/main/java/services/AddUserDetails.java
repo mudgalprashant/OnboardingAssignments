@@ -4,6 +4,7 @@ import constants.Constant;
 import enums.Course;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.PriorityQueue;
 
 import models.User;
@@ -24,12 +25,24 @@ public class AddUserDetails {
    * @param userList the user list
    * @param user     the user
    */
-  public void addAllDetails(PriorityQueue<User> userList, User user) {
-    addName(user);
-    addAge(user);
-    addAddress(user);
-    addRollNumber(userList, user);
-    addCourses(user);
+  public boolean addAllDetails(PriorityQueue<User> userList, User user) {
+
+    boolean detailAdded;
+    detailAdded = addName(user);
+
+    if (detailAdded) {
+      detailAdded = addAge(user);
+    }
+    if (detailAdded) {
+      detailAdded = addAddress(user);
+    }
+    if (detailAdded) {
+      detailAdded = addRollNumber(userList, user);
+    }
+    if (detailAdded) {
+      detailAdded = addCourses(user);
+    }
+    return detailAdded;
   }
 
   /**
@@ -37,19 +50,28 @@ public class AddUserDetails {
    *
    * @param user the user
    */
-  public void addName(User user) {
+  public boolean addName(User user) {
 
-    // Input name from console
-    System.out.println(Constant.INPUT_NAME_TEXT);
-    final String name = Constant.SCANNER.nextLine();
+    int inputCounter = Constant.COUNTER;
+    boolean success = false;
+    while (inputCounter++ <= Constant.INVALID_INPUT_LIMIT) {
+      // Input name from console
+      System.out.println(Constant.INPUT_NAME_TEXT);
+      final String name = Constant.SCANNER.nextLine();
 
-    // Check for valid name and if invalid name is entered, ask for input again
-    if (validator.validateName(name)) {
-      user.setName(name);
-    } else {
-      log.error(Constant.INVALID_NAME_TEXT);
-      addName(user);
+      // Check for valid name and if invalid name is entered, ask for input again
+      if (validator.validateName(name)) {
+        user.setName(name);
+        success = true;
+        break;
+      } else {
+        log.error(Constant.INVALID_NAME_TEXT);
+      }
     }
+    if (inputCounter >= Constant.INVALID_INPUT_LIMIT) {
+      System.out.println(Constant.INPUT_LIMIT_REACHED);
+    }
+    return success;
   }
 
   /**
@@ -57,20 +79,29 @@ public class AddUserDetails {
    *
    * @param user the user
    */
-  public void addAge(User user) {
+  public boolean addAge(User user) {
 
-    // Input age from console
-    System.out.println(Constant.INPUT_AGE_TEXT);
-    final String age = Constant.SCANNER.nextLine();
+    int inputCounter = Constant.COUNTER;
+    boolean success = false;
+    while (inputCounter++ <= Constant.INVALID_INPUT_LIMIT) {
+      // Input age from console
+      System.out.println(Constant.INPUT_AGE_TEXT);
+      final String age = Constant.SCANNER.nextLine();
 
-    // Check for valid age and if invalid age is entered, ask for input again
-    if (validator.validateAge(age)) {
-      int numericAge = Integer.parseInt(age);
-      user.setAge(numericAge);
-    } else {
-      log.error(Constant.INVALID_AGE_TEXT);
-      addAge(user);
+      // Check for valid age and if invalid age is entered, ask for input again
+      if (validator.validateAge(age)) {
+        int numericAge = Integer.parseInt(age);
+        user.setAge(numericAge);
+        success = true;
+        break;
+      } else {
+        log.error(Constant.INVALID_AGE_TEXT);
+      }
     }
+    if (inputCounter >= Constant.INVALID_INPUT_LIMIT) {
+      System.out.println(Constant.INPUT_LIMIT_REACHED);
+    }
+    return success;
   }
 
   /**
@@ -78,19 +109,28 @@ public class AddUserDetails {
    *
    * @param user the user
    */
-  public void addAddress(User user) {
+  public boolean addAddress(User user) {
 
-    // Input address from console
-    System.out.println(Constant.INPUT_ADDRESS_TEXT);
-    String address = Constant.SCANNER.nextLine();
+    int inputCounter = Constant.COUNTER;
+    boolean success = false;
+    while (inputCounter++ <= Constant.INVALID_INPUT_LIMIT) {
+      // Input address from console
+      System.out.println(Constant.INPUT_ADDRESS_TEXT);
+      String address = Constant.SCANNER.nextLine();
 
-    // Check for valid address and if invalid address is entered, ask for input again
-    if (validator.validateAddress(address)) {
-      user.setAddress(address);
-    } else {
-      log.error(Constant.INVALID_ADDRESS_TEXT);
-      addAddress(user);
+      // Check for valid address and if invalid address is entered, ask for input again
+      if (validator.validateAddress(address)) {
+        user.setAddress(address);
+        success = true;
+        break;
+      } else {
+        log.error(Constant.INVALID_ADDRESS_TEXT);
+      }
     }
+    if (inputCounter >= Constant.INVALID_INPUT_LIMIT) {
+      System.out.println(Constant.INPUT_LIMIT_REACHED);
+    }
+    return success;
   }
 
   /**
@@ -99,19 +139,28 @@ public class AddUserDetails {
    * @param userList the user list
    * @param user     the user
    */
-  public void addRollNumber(PriorityQueue<User> userList, User user) {
+  public boolean addRollNumber(PriorityQueue<User> userList, User user) {
 
-    // Input roll No. from console
-    System.out.println(Constant.INPUT_ROLL_NUMBER_TEXT);
-    String rollNumber = Constant.SCANNER.nextLine();
+    int inputCounter = Constant.COUNTER;
+    boolean success = false;
+    while (inputCounter++ <= Constant.INVALID_INPUT_LIMIT) {
+      // Input roll No. from console
+      System.out.println(Constant.INPUT_ROLL_NUMBER_TEXT);
+      String rollNumber = Constant.SCANNER.nextLine();
 
-    // Check for valid roll No. and if invalid roll No. is entered, ask for input again
-    if (validator.validateRollNumber(userList, rollNumber)) {
-      user.setRollNumber(rollNumber);
-    } else {
-      log.error(Constant.INVALID_ROLL_NUMBER_TEXT);
-      addRollNumber(userList, user);
+      // Check for valid roll No. and if invalid roll No. is entered, ask for input again
+      if (validator.validateRollNumber(userList, rollNumber)) {
+        user.setRollNumber(rollNumber);
+        success = true;
+        break;
+      } else {
+        log.error(Constant.INVALID_ROLL_NUMBER_TEXT);
+      }
     }
+    if (inputCounter >= Constant.INVALID_INPUT_LIMIT) {
+      System.out.println(Constant.INPUT_LIMIT_REACHED);
+    }
+    return success;
   }
 
   /**
@@ -119,8 +168,9 @@ public class AddUserDetails {
    *
    * @param user the user
    */
-  public void addCourses(User user) {
+  public boolean addCourses(User user) {
 
+    boolean success = false;
     // Show course options
     System.out.printf((Constant.COURSE_OPTIONS_TEXT), Constant.NUMBER_OF_COURSES);
     for (Course c : Course.values()) {
@@ -132,10 +182,14 @@ public class AddUserDetails {
     // Select and add the defined no. of courses
     int courseNumber = Constant.COUNTER;
     while (courseNumber <= Constant.NUMBER_OF_COURSES) {
-      addCourse(courses, courseNumber);
+      success = addCourse(courses, courseNumber);
+      if (!success) {
+        break;
+      }
       courseNumber++;
     }
     user.setCourses(courses);
+    return success;
   }
 
   /**
@@ -144,19 +198,30 @@ public class AddUserDetails {
    * @param courses      the courses
    * @param courseNumber the course number
    */
-  public void addCourse(HashSet<Course> courses, int courseNumber) {
+  public boolean addCourse(HashSet<Course> courses, int courseNumber) {
 
-    // Input course from console
-    System.out.printf(Constant.INPUT_COURSE_NAME_TEXT, courseNumber);
-    String course = Constant.SCANNER.nextLine();
+    int inputCounter = Constant.COUNTER;
+    boolean success = false;
+    while (inputCounter++ <= Constant.INVALID_INPUT_LIMIT) {
+      // Input course from console
+      System.out.printf(Constant.INPUT_COURSE_NAME_TEXT, courseNumber);
+      String course = Constant.SCANNER.nextLine();
 
-    // Check for valid and non-repeated course and if invalid course is entered, ask for input again
-    if (validator.validateCourse(course)
-        && validator.isCourseNotRepeated(courses, Course.valueOf(course.toUpperCase()))) {
-      courses.add(Course.valueOf(course.toUpperCase()));
-    } else {
-      log.error(Constant.INVALID_COURSE_TEXT);
-      addCourse(courses, courseNumber);
+      // Check for valid and non-repeated course and if invalid course is entered, ask for input again
+      if (validator.validateCourse(course)
+          && validator.isCourseNotRepeated(courses, Course.valueOf(course.toUpperCase()))) {
+
+        courses.add(Course.valueOf(course.toUpperCase()));
+        success = true;
+        break;
+
+      } else {
+        log.error(Constant.INVALID_COURSE_TEXT);
+      }
     }
+    if (inputCounter >= Constant.INVALID_INPUT_LIMIT) {
+      System.out.println(Constant.INPUT_LIMIT_REACHED);
+    }
+    return success;
   }
 }

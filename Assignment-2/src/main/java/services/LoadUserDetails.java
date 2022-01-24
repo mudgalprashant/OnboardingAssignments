@@ -3,10 +3,8 @@ package services;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.StreamCorruptedException;
 import java.util.PriorityQueue;
 
 import models.User;
@@ -31,10 +29,7 @@ public class LoadUserDetails {
     try {
 
       // Create file if it does not exist
-      if (!userDataFile.exists()) {
-        boolean fileCreated = userDataFile.createNewFile();
-      }
-
+      userDataFile.createNewFile();
       // Read from file to userList
       if (userDataFile.canRead()) {
 
@@ -53,7 +48,8 @@ public class LoadUserDetails {
         fileInputStream.close();
         objectInputStream.close();
       }
-    } catch (ClassNotFoundException | IOException exception) {
+    } catch (EOFException ignored) {
+    } catch (ClassNotFoundException | IOException | SecurityException exception) {
       log.error(exception);
     }
   }

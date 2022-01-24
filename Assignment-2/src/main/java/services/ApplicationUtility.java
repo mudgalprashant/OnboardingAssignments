@@ -76,8 +76,10 @@ public class ApplicationUtility {
   private void addUser() {
     User user = User.builder().build();
     AddUserDetails addUserDetails = new AddUserDetails();
-    addUserDetails.addAllDetails(userList, user);
-    userList.add(user);
+    boolean detailsAdded = addUserDetails.addAllDetails(userList, user);
+    if (detailsAdded) {
+      userList.add(user);
+    }
   }
 
   private void displayUsers() {

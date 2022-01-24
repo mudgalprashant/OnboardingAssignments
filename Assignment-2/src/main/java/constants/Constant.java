@@ -51,7 +51,7 @@ public class Constant {
   /**
    * The constant COURSE_OPTIONS_TEXT.
    */
-  public static final String COURSE_OPTIONS_TEXT = "Select any %d courses. Course options:";
+  public static final String COURSE_OPTIONS_TEXT = "Select any %d courses. Course options:\n";
   /**
    * The constant INPUT_COURSE_NAME_TEXT.
    */
@@ -118,6 +118,13 @@ public class Constant {
    */
   public static final String REPEATED_ROLL_NUMBER_TEXT =
       "Entered roll no. already exists. Please enter a unique roll no.!!";
+  /**
+   * The constant INPUT_LIMIT_REACHED.
+   */
+  public static final String INPUT_LIMIT_REACHED =
+      String.format(
+          "You have entered invalid input %d times.\nProgram Exited.",
+          Constant.INVALID_INPUT_LIMIT);
 
   /**
    * regex constants.
@@ -144,6 +151,10 @@ public class Constant {
    * The constant NUMBER_OF_TASKS.
    */
   public static final int NUMBER_OF_TASKS = 5;
+  /**
+   * The constant INVALID_TASK_LIMIT.
+   */
+  public static final int INVALID_INPUT_LIMIT = 5;
 
   /**
    * System constants.
