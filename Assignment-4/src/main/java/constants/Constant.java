@@ -1,6 +1,5 @@
 package constants;
 
-import java.util.Scanner;
 
 /**
  * Constants for various uses
@@ -128,4 +127,32 @@ public final class Constant {
    */
   public static final String SELECT_ALL_QUERY =
       "SELECT * FROM `items`";
+
+  /**
+   * Database constants.
+   * <p>
+   * The constant COLUMN_LABEL_NAME.
+   */
+  public static final String COLUMN_LABEL_NAME = "name";
+  /**
+   * The constant COLUMN_LABEL_PRICE.
+   */
+  public static final String COLUMN_LABEL_PRICE = "price";
+  /**
+   * The constant COLUMN_LABEL_CATEGORY.
+   */
+  public static final String COLUMN_LABEL_CATEGORY = "category";
+  /**
+   * The constant COLUMN_LABEL_QUANTITY.
+   */
+  public static final String COLUMN_LABEL_QUANTITY = "quantity";
+
+  /**
+   * The constant INPUT_THREAD_NAME.
+   */
+  public static final String INPUT_THREAD_NAME = "Input-Thread";
+  /**
+   * The constant OUTPUT_THREAD_NAME.
+   */
+  public static final String OUTPUT_THREAD_NAME = "Output-Thread";
 }

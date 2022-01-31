@@ -10,10 +10,10 @@ import enums.Category;
  */
 class TaxationTest {
 
-    /**
-     * Calculate tax.
-     */
-    @Test
+  /**
+   * Calculate tax.
+   */
+  @Test
     void calculateTax() {
         final Taxation taxation = new Taxation();
 

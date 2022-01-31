@@ -8,12 +8,12 @@ import models.Item;
  */
 public class Taxation {
 
-    /**
-     * Calculate tax.
-     *
-     * @param item the item for which tax is to calculated
-     */
-    public void calculateTax(Item item) {
+  /**
+   * Calculate tax.
+   *
+   * @param item the item for which tax is to calculated
+   */
+  public void calculateTax(Item item) {
 
         // Tax for various categories
         double tax;

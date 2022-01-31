@@ -22,19 +22,19 @@ public class ThreadUtility {
   /**
    * The Taxation.
    */
-// To use tax functionalities
+  // To use tax functionalities
   Taxation taxation = new Taxation();
 
   /**
    * The Item list.
    */
-// To store items
+  // To store items
   LinkedList<Item> itemList = new LinkedList<>();
 
   /**
    * The Result set.
    */
-// To store result from database queries
+  // To store result from database queries
   ResultSet resultSet;
 
   /**
@@ -50,10 +50,10 @@ public class ThreadUtility {
     resultSet = databaseUtility.getAllItems();
 
     // Thread to read from database
-    Thread inputThread = new Thread(() -> fetchItems(resultSet), "Input-Thread");
+    Thread inputThread = new Thread(() -> fetchItems(resultSet), Constant.INPUT_THREAD_NAME);
 
     // Thread to write on console
-    Thread outputThread = new Thread(this::printItems, "Output-Thread");
+    Thread outputThread = new Thread(this::printItems, Constant.OUTPUT_THREAD_NAME);
 
     // Start Threads
     inputThread.start();
@@ -80,14 +80,14 @@ public class ThreadUtility {
           // Cast row of table into Item object
           Item item = Item.builder().build();
           item.setName(
-              resultSet.getString("name"));
+              resultSet.getString(Constant.COLUMN_LABEL_NAME));
           item.setPrice(
-              resultSet.getDouble("price"));
+              resultSet.getDouble(Constant.COLUMN_LABEL_PRICE));
           item.setCategory(
               Category.valueOf(
-                  resultSet.getString("category").toUpperCase()));
+                  resultSet.getString(Constant.COLUMN_LABEL_CATEGORY).toUpperCase()));
           item.setQuantity(
-              resultSet.getInt("quantity"));
+              resultSet.getInt(Constant.COLUMN_LABEL_QUANTITY));
 
           // Add item to list
           itemList.add(item);
