@@ -1,5 +1,6 @@
 package com.newsletter.user.config;
 
+import com.newsletter.user.constants.Constant;
 import com.newsletter.user.enums.Role;
 import com.newsletter.user.models.User;
 import io.jsonwebtoken.Claims;
@@ -97,7 +98,7 @@ public class JwtTokenUtil implements Serializable {
    */
   public List<Object> getAuthorizationRoleFromToken(String token) {
     return getClaimFromToken(token,
-        claims -> claims.get("Authorization", List.class));
+        claims -> claims.get(Constant.SECURITY_HEADER, List.class));
   }
 
   // compaction of the JWT to a URL-safe string

@@ -48,7 +48,7 @@ public class AuthController {
    * @return the response entity
    * @throws Exception the exception
    */
-  @PostMapping("/login")
+  @PostMapping(Constant.CREATE_AUTH_TOKEN_MAPPING)
   @CachePut(value = "users")
   ResponseEntity<JwtResponse> createAuthToken (@RequestBody JwtRequest authRequest) throws Exception {
     authenticate(authRequest.getEmail(), authRequest.getPassword());
@@ -68,9 +68,9 @@ public class AuthController {
    * @param id    the id
    * @return the response entity
    */
-  @GetMapping("/authorize/subscriber/{id}")
+  @GetMapping(Constant.AUTHORIZE_SUBSCRIBER_MAPPING)
   ResponseEntity<ApiResponseDto> authorizeSubscriber(
-      @RequestHeader("Authorization") String token,
+      @RequestHeader(Constant.SECURITY_HEADER) String token,
       @PathVariable Long id) {
     ApiResponseDto apiResponseDto = new ApiResponseDto();
     if (authService.isSubscriberAuthorized(userService.getUserById(id), token)) {
@@ -88,9 +88,9 @@ public class AuthController {
    * @param id    the id
    * @return the response entity
    */
-  @GetMapping("/authorize/publisher/{id}")
+  @GetMapping(Constant.AUTHORIZE_PUBLISHER_MAPPING)
   ResponseEntity<Object> authorizePublisher(
-      @RequestHeader("Authorization") String token,
+      @RequestHeader(Constant.SECURITY_HEADER) String token,
       @PathVariable Long id) {
     ApiResponseDto apiResponseDto = new ApiResponseDto();
     //User user = userService.getUserById(id);
@@ -109,9 +109,9 @@ public class AuthController {
    * @param id    the id
    * @return the response entity
    */
-  @GetMapping("/authorize/user/{id}")
+  @GetMapping(Constant.AUTHORIZE_USER_MAPPING)
   ResponseEntity<Object> authorizeUser(
-      @RequestHeader("Authorization") String token,
+      @RequestHeader(Constant.SECURITY_HEADER) String token,
       @PathVariable Long id) {
     ApiResponseDto apiResponseDto = new ApiResponseDto();
     //User user = userService.getUserById(id);
@@ -127,9 +127,9 @@ public class AuthController {
     try {
       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
     } catch (DisabledException exception) {
-      throw new Exception("USER_DISABLED", exception);
+      throw new Exception(Constant.USER_DISABLED, exception);
     } catch (BadCredentialsException exception) {
-      throw new Exception("INVALID_CREDENTIALS", exception);
+      throw new Exception(Constant.INVALID_CREDENTIALS, exception);
     }
   }
 

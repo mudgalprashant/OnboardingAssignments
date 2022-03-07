@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
+/**
+ * The type Subscribe controller.
+ */
 @AllArgsConstructor
 @RestController
 public class SubscribeController {
@@ -30,10 +33,16 @@ public class SubscribeController {
   @Autowired
   private UserServiceClient userServiceClient;
 
-  @CachePut(value = "subscribes")
-  @PostMapping("/subscribe")
+  /**
+   * Subscribe response entity.
+   *
+   * @param subRequestDto the sub request dto
+   * @param token         the token
+   * @return the response entity
+   */
+  @PostMapping(Constant.SUBSCRIBE_MAPPING)
   ResponseEntity<ApiResponseDto> subscribe(@RequestBody SubRequestDto subRequestDto,
-  @RequestHeader("Authorization") String token) {
+  @RequestHeader(Constant.SECURITY_HEADER) String token) {
 
     ApiResponseDto apiResponseDto = new ApiResponseDto();
 
@@ -56,7 +65,13 @@ public class SubscribeController {
     );
   }
 
-  @PutMapping("/renew/{id}")
+  /**
+   * Renew response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
+  @PutMapping(Constant.RENEW_MAPPING + Constant.BY_ID_MAPPING)
   ResponseEntity<ApiResponseDto> renew(@PathVariable Long id) {
     ApiResponseDto apiResponseDto = new ApiResponseDto();
     final Sub sub = subService.renew(id);
@@ -71,8 +86,12 @@ public class SubscribeController {
     );
   }
 
-  @DeleteMapping("/unsubscribe/{id}")
-  @CacheEvict(value = "subscribes")
+  /**
+   * Un subscribe.
+   *
+   * @param id the id
+   */
+  @DeleteMapping(Constant.UNSUBSCRIBE_MAPPING + Constant.BY_ID_MAPPING)
   void unSubscribe(@PathVariable Long id) {
     subService.unSubscribe(id);
   }

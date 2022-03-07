@@ -14,6 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The type Subscription service.
+ */
 @AllArgsConstructor
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService{

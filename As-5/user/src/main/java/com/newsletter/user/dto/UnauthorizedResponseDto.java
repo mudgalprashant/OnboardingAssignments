@@ -1,5 +1,6 @@
 package com.newsletter.user.dto;
 
+import com.newsletter.user.constants.Constant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class UnauthorizedResponseDto {
-  private final String message = "Permission Denied: Unauthorized access";
+  private final String message = Constant.UNAUTHORIZED_ACCESS_MESSAGE;
   private final int errorCode = 401;
   private Object metadata;
 }

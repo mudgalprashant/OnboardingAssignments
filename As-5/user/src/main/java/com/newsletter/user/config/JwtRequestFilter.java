@@ -9,13 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.newsletter.user.constants.Constant;
 import com.newsletter.user.models.User;
 import com.newsletter.user.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -40,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                   HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
 
-    final String requestTokenHeader = request.getHeader("Authorization");
+    final String requestTokenHeader = request.getHeader(Constant.SECURITY_HEADER);
 
     String email = null;
     String jwtToken = null;
@@ -52,12 +52,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       try {
         email = jwtTokenUtil.getEmailFromToken(jwtToken);
       } catch (IllegalArgumentException e) {
-        System.out.println("Unable to get JWT Token");
+        logger.error(Constant.JWT_FETCH_FAILED);
       } catch (ExpiredJwtException e) {
-        System.out.println("JWT Token has expired");
+        logger.error(Constant.JWT_EXPIRED);
       }
     } else {
-      logger.warn("JWT Token does not begin with Bearer String");
+      logger.warn(Constant.JWT_WITHOUT_BEARER);
     }
 
     // Once we get the token validate it.

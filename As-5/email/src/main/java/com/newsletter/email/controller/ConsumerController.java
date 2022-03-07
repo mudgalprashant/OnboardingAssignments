@@ -27,7 +27,7 @@ public class ConsumerController {
    */
   @KafkaListener(topics = Constant.TOPIC,
       groupId = Constant.GROUP_ID,
-      containerFactory = "kafkaListenerContainerFactory")
+      containerFactory = Constant.KAFKA_LISTENER_CONTAINER_FACTORY)
   public void listen(Email email) {
     emailSenderService.sendEmail(email);
   }

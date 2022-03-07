@@ -3,6 +3,9 @@ package com.newsletter.subscribe.dto;
 import com.newsletter.subscribe.enums.Category;
 import lombok.Data;
 
+/**
+ * The type Subscription dto.
+ */
 @Data
 public class SubscriptionDto {
   private String id;

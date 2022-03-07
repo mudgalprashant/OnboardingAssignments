@@ -1,5 +1,6 @@
 package com.newsletter.user.config;
 
+import com.newsletter.user.constants.Constant;
 import com.newsletter.user.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -52,8 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
         .formLogin()
-        .loginPage("/login")
-        .usernameParameter("email")
+        .loginPage(Constant.LOGIN_PAGE)
+        .usernameParameter(Constant.USERNAME_PARAMETER)
         .and()
         .logout();
     http

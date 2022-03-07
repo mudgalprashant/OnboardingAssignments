@@ -1,5 +1,6 @@
 package com.newsletter.user.services;
 
+import com.newsletter.user.constants.Constant;
 import com.newsletter.user.enums.Role;
 import com.newsletter.user.models.User;
 import com.newsletter.user.repo.UserRepo;
@@ -42,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    * @param user the user
    * @return the user
    */
-  @CachePut(value = "users")
+  @CachePut(value = Constant.CACHE_VALUE)
   public User createUser(User user){
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     return userRepo.save(user);
@@ -54,7 +55,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    *
    * @return the all user
    */
-  @Cacheable(value = "users")
+  @Cacheable(value = Constant.CACHE_VALUE)
   public List<User> getAllUser() {
     return (List<User>)userRepo.findAll();
   }
@@ -65,7 +66,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    * @param id the id
    * @return the user by id
    */
-  @Cacheable(value = "users", key = "#id")
+  @Cacheable(value = Constant.CACHE_VALUE, key = "#id")
   public User getUserById(Long id) {
     return userRepo.findById(id).orElseThrow();
   }
@@ -76,7 +77,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    * @param email the email
    * @return the user by email
    */
-  @Cacheable(value = "users", key = "#email")
+  @Cacheable(value = Constant.CACHE_VALUE, key = "#email")
   public User getUserByEmail(String email) {
     return userRepo.findByEmail(email).orElseThrow();
   }
@@ -88,7 +89,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    * @param id      the id
    * @return the user
    */
-  @Cacheable(value = "users", key = "#id")
+  @Cacheable(value = Constant.CACHE_VALUE, key = "#id")
   public User updateUser(User newUser, Long id) {
     User user = getUserById(id);
     copyNonNull(newUser, user);
@@ -105,7 +106,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    *
    * @param id the id
    */
-  @CacheEvict(value = "users")
+  @CacheEvict(value = Constant.CACHE_VALUE)
   public void deleteUser(Long id) {
     userRepo.deleteById(id);
   }
@@ -142,7 +143,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return mapUserToUserDetails(
         userRepo
             .findByEmail(email)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"))
+            .orElseThrow(() -> new UsernameNotFoundException(Constant.USER_NOT_FOUND_MESSAGE))
     );
   }
 

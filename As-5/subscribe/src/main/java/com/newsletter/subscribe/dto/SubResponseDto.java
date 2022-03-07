@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 
+/**
+ * The type Sub response dto.
+ */
 @Data
 public class SubResponseDto {
   private Long id;

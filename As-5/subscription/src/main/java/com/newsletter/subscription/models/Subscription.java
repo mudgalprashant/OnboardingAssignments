@@ -6,6 +6,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 
+/**
+ * The type Subscription.
+ */
 @AllArgsConstructor
 @Document(indexName = "subscriptions")
 @Getter

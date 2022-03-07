@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 
+/**
+ * The type Order response dto.
+ */
 @Data
 public class OrderResponseDto {
   private Long id;

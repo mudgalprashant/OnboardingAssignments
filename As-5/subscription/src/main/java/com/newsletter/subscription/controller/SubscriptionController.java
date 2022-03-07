@@ -1,5 +1,6 @@
 package com.newsletter.subscription.controller;
 
+import com.newsletter.subscription.constants.Constant;
 import com.newsletter.subscription.dto.SubscriptionDto;
 import com.newsletter.subscription.mapper.SubscriptionMapper;
 import com.newsletter.subscription.services.SubscriptionService;
@@ -11,15 +12,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Subscription controller.
+ */
 @AllArgsConstructor
 @RestController
-@RequestMapping("/subscriptions")
+@RequestMapping(Constant.SUBSCRIPTIONS_MAPPING)
 public class SubscriptionController {
 
   @Autowired
   private final SubscriptionService subscriptionService;
   private final SubscriptionMapper subscriptionMapper;
 
+  /**
+   * Create response entity.
+   *
+   * @param subscriptionDto the subscription dto
+   * @return the response entity
+   */
   @PostMapping
   ResponseEntity<SubscriptionDto> create(@RequestBody SubscriptionDto subscriptionDto) {
     return ResponseEntity.ok(
@@ -31,6 +41,11 @@ public class SubscriptionController {
     );
   }
 
+  /**
+   * Gets all.
+   *
+   * @return the all
+   */
   @GetMapping
   ResponseEntity<List<SubscriptionDto>> getAll() {
     return ResponseEntity.ok(
@@ -42,7 +57,13 @@ public class SubscriptionController {
     );
   }
 
-  @GetMapping("/{id}")
+  /**
+   * Gets by id.
+   *
+   * @param id the id
+   * @return the by id
+   */
+  @GetMapping(Constant.BY_ID_MAPPING)
   ResponseEntity<SubscriptionDto> getById(@PathVariable String id) {
     return ResponseEntity.ok(
         subscriptionMapper.subscriptionToDto(
@@ -51,14 +72,27 @@ public class SubscriptionController {
     );
   }
 
-  @GetMapping("/search")
+  /**
+   * Search response entity.
+   *
+   * @param query the query
+   * @return the response entity
+   */
+  @GetMapping(Constant.SEARCH_MAPPING)
   ResponseEntity<List<SubscriptionDto>> search (@RequestParam String query) {
     return ResponseEntity.ok(subscriptionService.search(query).stream().map(
         subscriptionMapper::subscriptionToDto
     ).collect(Collectors.toList()));
   }
 
-  @PutMapping("/{id}")
+  /**
+   * Update response entity.
+   *
+   * @param subscriptionDto the subscription dto
+   * @param id              the id
+   * @return the response entity
+   */
+  @PutMapping(Constant.BY_ID_MAPPING)
   ResponseEntity<SubscriptionDto> update(@RequestBody SubscriptionDto subscriptionDto, @PathVariable String id) {
     return ResponseEntity.ok(
         subscriptionMapper.subscriptionToDto(
@@ -69,7 +103,12 @@ public class SubscriptionController {
     );
   }
 
-  @DeleteMapping("/{id}")
+  /**
+   * Delete.
+   *
+   * @param id the id
+   */
+  @DeleteMapping(Constant.BY_ID_MAPPING)
   void delete(@PathVariable String id) {
     subscriptionService.delete(id);
   }

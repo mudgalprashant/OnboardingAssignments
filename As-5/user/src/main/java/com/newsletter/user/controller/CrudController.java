@@ -1,5 +1,6 @@
 package com.newsletter.user.controller;
 
+import com.newsletter.user.constants.Constant;
 import com.newsletter.user.dto.CreateUserRequestDto;
 import com.newsletter.user.dto.UnauthorizedResponseDto;
 import com.newsletter.user.mapper.UserMapper;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
  * The type User crud controller.
  */
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping(Constant.CRUD_MAPPING)
 @RestController
 public class CrudController {
 
@@ -73,7 +74,7 @@ public class CrudController {
    * @param id the id
    * @return the user by id
    */
-  @GetMapping("/{id}")
+  @GetMapping(Constant.BY_ID_MAPPING)
   ResponseEntity<Object> getUserById(@PathVariable Long id) {
     return ResponseEntity.ok(
         userMapper.userToResponseDto(userService.getUserById(id))
@@ -87,7 +88,7 @@ public class CrudController {
    * @param email the email
    * @return the user by email
    */
-  @GetMapping("/email/{email}")
+  @GetMapping(Constant.BY_EMAIL_MAPPING)
   ResponseEntity<Object> getUserByEmail(@PathVariable String email) {
     return ResponseEntity.ok(
         userMapper.userToResponseDto(userService.getUserByEmail(email))
@@ -102,9 +103,9 @@ public class CrudController {
    * @param id                   the id
    * @return the response entity
    */
-  @PutMapping("/{id}")
+  @PutMapping(Constant.BY_ID_MAPPING)
   ResponseEntity<Object> updateUser(
-      @RequestHeader("Authorization") String token,
+      @RequestHeader(Constant.SECURITY_HEADER) String token,
       @RequestBody CreateUserRequestDto createUserRequestDto,
       @PathVariable Long id) {
     if (
@@ -127,9 +128,9 @@ public class CrudController {
    * @param id    the id
    * @return the response entity
    */
-  @DeleteMapping("/{id}")
+  @DeleteMapping(Constant.BY_ID_MAPPING)
   ResponseEntity<Object> deleteUser(
-      @RequestHeader("Authorization") String token,
+      @RequestHeader(Constant.SECURITY_HEADER) String token,
       @PathVariable Long id) {
     if (!authService.isUserAuthorized(userService.getUserById(id), token)) {
       return ResponseEntity.status(401).body(new UnauthorizedResponseDto());

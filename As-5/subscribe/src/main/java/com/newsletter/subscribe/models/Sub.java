@@ -8,6 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * The type Sub.
+ */
 @Entity
 @Getter
 @Setter

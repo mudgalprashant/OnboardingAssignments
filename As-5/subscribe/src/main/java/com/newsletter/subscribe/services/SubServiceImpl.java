@@ -1,11 +1,15 @@
 package com.newsletter.subscribe.services;
 
+import com.newsletter.subscribe.constants.Constant;
 import com.newsletter.subscribe.feignclient.SubscriptionServiceClient;
 import com.newsletter.subscribe.feignclient.UserServiceClient;
 import com.newsletter.subscribe.models.Sub;
 import com.newsletter.subscribe.repo.SubRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -13,6 +17,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * The type Sub service.
+ */
 @AllArgsConstructor
 @Service
 public class SubServiceImpl implements SubService{
@@ -20,12 +27,20 @@ public class SubServiceImpl implements SubService{
   @Autowired
   private SubRepo subRepo;
 
+  /**
+   * The Subscription service client.
+   */
   @Autowired
   SubscriptionServiceClient subscriptionServiceClient;
 
+  /**
+   * The User service client.
+   */
   @Autowired
   UserServiceClient userServiceClient;
 
+
+  @CachePut(value = Constant.CACHE_VALUE)
   @Override
   public Sub subscribe(Sub sub) {
     List<String> subscriptionsIds = subRepo
@@ -51,6 +66,7 @@ public class SubServiceImpl implements SubService{
     }
   }
 
+  @Cacheable(value = Constant.CACHE_VALUE, key = "#id")
   @Override
   public Sub renew(Long id) {
     Sub sub = subRepo.findById(id).orElseThrow();
@@ -83,6 +99,8 @@ public class SubServiceImpl implements SubService{
     }
   }
 
+
+  @CacheEvict(value = Constant.CACHE_VALUE)
   @Override
   public void unSubscribe(Long id) {
     final Sub sub = subRepo.findById(id).orElseThrow();

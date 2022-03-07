@@ -47,16 +47,16 @@ public class ProducerController {
    * @return the response entity
    */
   @PostMapping("/publish")
-  public ResponseEntity<ApiResponseDto> publish(@RequestBody EmailDto emailDto,
-                                                @RequestHeader("Authorization") String token) {
+  public ResponseEntity<ApiResponseDto> publish(
+      @RequestBody EmailDto emailDto,
+      @RequestHeader(Constant.SECURITY_HEADER) String token) {
 
     ApiResponseDto apiResponseDto = new ApiResponseDto();
-    String senderEmail = "prashant.mudgal.test@gmail.com";
-    UserResponseDto sender = (UserResponseDto) userServiceClient.getUserByEmail(senderEmail).getBody();
+    UserResponseDto sender = (UserResponseDto) userServiceClient.getUserByEmail(emailDto.getSender()).getBody();
 
     if (Objects.isNull(sender)) {
       apiResponseDto.setStatus(Constant.FAILURE_STATUS);
-      apiResponseDto.setBody("Could not find sender");
+      apiResponseDto.setBody(Constant.SENDER_NOT_FOUND);
     } else if (Objects.equals(Objects.requireNonNull(userServiceClient
             .authorizePublisher(token, sender.getId())
             .getBody())
@@ -67,7 +67,7 @@ public class ProducerController {
       apiResponseDto.setBody(emailMapper.emailToDto(email));
     } else {
       apiResponseDto.setStatus(Constant.FAILURE_STATUS);
-      apiResponseDto.setBody("Could not authorize and send email");
+      apiResponseDto.setBody(Constant.UNAUTHORIZED_SENDER);
     }
 
     return ResponseEntity.ok(apiResponseDto);
