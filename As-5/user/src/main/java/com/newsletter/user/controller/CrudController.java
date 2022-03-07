@@ -1,19 +1,16 @@
 package com.newsletter.user.controller;
 
-import com.newsletter.user.dto.UserRequestDto;
-import com.newsletter.user.dto.UserResponseDto;
+import com.newsletter.user.dto.CreateUserRequestDto;
+import com.newsletter.user.dto.UnauthorizedResponseDto;
 import com.newsletter.user.mapper.UserMapper;
 import com.newsletter.user.models.User;
-import com.newsletter.user.services.UserService;
+import com.newsletter.user.services.AuthServiceImpl;
+import com.newsletter.user.services.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -22,31 +19,33 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RequestMapping("/users")
 @RestController
-public class UserCrudController {
+public class CrudController {
 
   @Autowired
-  private final UserService userService;
+  private final UserDetailsServiceImpl userService;
 
+  @Autowired
   private final UserMapper userMapper;
+
+  @Autowired
+  private final AuthServiceImpl authService;
 
 
   /**
    * Create user response entity.
    *
-   * @param userRequestDto the user dto
+   * @param createUserRequestDto the user request dto
    * @return the response entity
    */
   @PostMapping
-  @CachePut(value = "users")
-  ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto userRequestDto) {
-
+  ResponseEntity<Object> createUser(@RequestBody CreateUserRequestDto createUserRequestDto) {
     return ResponseEntity.ok(
         userMapper
             .userToResponseDto(
                 userService
                     .createUser(
                     userMapper
-                        .RequestDtoToUser(userRequestDto)
+                        .RequestDtoToUser(createUserRequestDto)
                 )
             )
     );
@@ -58,8 +57,7 @@ public class UserCrudController {
    * @return the all users
    */
   @GetMapping
-  @Cacheable(value = "users")
-  ResponseEntity<List<UserResponseDto>> getAllUsers() {
+  ResponseEntity<Object> getAllUsers() {
     return ResponseEntity.ok(
         userService
             .getAllUser()
@@ -76,12 +74,12 @@ public class UserCrudController {
    * @return the user by id
    */
   @GetMapping("/{id}")
-  @Cacheable(value = "users", key = "#id")
-  ResponseEntity<UserResponseDto> getUserById(@PathVariable long id) {
+  ResponseEntity<Object> getUserById(@PathVariable Long id) {
     return ResponseEntity.ok(
         userMapper.userToResponseDto(userService.getUserById(id))
     );
   }
+
 
   /**
    * Gets user by email.
@@ -90,8 +88,7 @@ public class UserCrudController {
    * @return the user by email
    */
   @GetMapping("/email/{email}")
-  @Cacheable(value = "users", key = "#email")
-  ResponseEntity<UserResponseDto> getUserByEmail(@PathVariable String email) {
+  ResponseEntity<Object> getUserByEmail(@PathVariable String email) {
     return ResponseEntity.ok(
         userMapper.userToResponseDto(userService.getUserByEmail(email))
     );
@@ -100,14 +97,23 @@ public class UserCrudController {
   /**
    * Update user response entity.
    *
-   * @param userRequestDto the user dto
-   * @param id             the id
+   * @param token                the token
+   * @param createUserRequestDto the user request dto
+   * @param id                   the id
    * @return the response entity
    */
   @PutMapping("/{id}")
-  @Cacheable(value = "users", key = "#id")
-  ResponseEntity<UserResponseDto> updateUser(@RequestBody UserRequestDto userRequestDto, @PathVariable long id) {
-    User user = userMapper.RequestDtoToUser(userRequestDto);
+  ResponseEntity<Object> updateUser(
+      @RequestHeader("Authorization") String token,
+      @RequestBody CreateUserRequestDto createUserRequestDto,
+      @PathVariable Long id) {
+    if (
+        !authService.isUserAuthorized(
+        userMapper.RequestDtoToUser(createUserRequestDto), token)
+    ) {
+      return ResponseEntity.status(401).body(new UnauthorizedResponseDto());
+    }
+    User user = userMapper.RequestDtoToUser(createUserRequestDto);
     user = userService.updateUser(user, id);
     return ResponseEntity.ok(
         userMapper.userToResponseDto(user)
@@ -117,12 +123,19 @@ public class UserCrudController {
   /**
    * Delete user.
    *
-   * @param id the id
+   * @param token the token
+   * @param id    the id
+   * @return the response entity
    */
   @DeleteMapping("/{id}")
-  @CacheEvict(value = "users")
-  void deleteUser(@PathVariable long id) {
+  ResponseEntity<Object> deleteUser(
+      @RequestHeader("Authorization") String token,
+      @PathVariable Long id) {
+    if (!authService.isUserAuthorized(userService.getUserById(id), token)) {
+      return ResponseEntity.status(401).body(new UnauthorizedResponseDto());
+    }
     userService.deleteUser(id);
+    return ResponseEntity.accepted().build();
   }
 
 

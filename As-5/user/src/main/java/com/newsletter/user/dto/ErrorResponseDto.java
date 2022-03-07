@@ -1,5 +1,6 @@
 package com.newsletter.user.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -8,5 +9,4 @@ import lombok.Data;
 @Data
 public class ErrorResponseDto {
   private Exception error;
-  private String details;
 }

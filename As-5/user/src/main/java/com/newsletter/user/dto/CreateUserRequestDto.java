@@ -8,8 +8,8 @@ import lombok.Data;
  * The type User dto.
  */
 @Data
-public class  UserRequestDto {
-  private long id;
+public class CreateUserRequestDto {
+  private Long id;
   private String name;
   private String email;
   private String password;

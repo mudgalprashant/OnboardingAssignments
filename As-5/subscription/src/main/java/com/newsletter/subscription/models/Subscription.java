@@ -27,6 +27,6 @@ public class Subscription {
 
   private Boolean renewable;
 
-  // Duration in seconds
-  private Long duration;
+  // Duration in milli seconds
+  private String duration;
 }

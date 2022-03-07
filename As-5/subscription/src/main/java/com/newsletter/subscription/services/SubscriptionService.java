@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 public interface SubscriptionService {
 
   Subscription create(Subscription subscription);
@@ -19,5 +18,7 @@ public interface SubscriptionService {
   Subscription update(Subscription subscription, String id);
 
   void delete(String id);
+
+  void deleteAll();
 
 }

@@ -5,10 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.UniqueElements;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * The type User.
@@ -21,13 +29,14 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  private Long id;
 
   @NotBlank
   @NotNull
   private String name;
 
-  @Column(unique = true)
+  @Length(max = 45)
+  @Column(unique = true, length = 45)
   @Email
   private String email;
 
@@ -37,6 +46,5 @@ public class User {
   private String password;
 
   @Enumerated
-  @Column(nullable = false)
   private Role role;
 }

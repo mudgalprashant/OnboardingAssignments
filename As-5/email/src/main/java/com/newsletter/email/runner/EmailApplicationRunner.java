@@ -11,6 +11,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 
+/**
+ * The type Email application runner.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailApplicationRunner implements ApplicationRunner {
@@ -18,6 +21,11 @@ public class EmailApplicationRunner implements ApplicationRunner {
   @Autowired
   private KafkaTemplate<String, Email> kafkaTemplate;
 
+  /**
+   * Send email.
+   *
+   * @param email the email
+   */
   public void sendEmail(Email email) {
     kafkaTemplate.send(Constant.TOPIC, email);
   }

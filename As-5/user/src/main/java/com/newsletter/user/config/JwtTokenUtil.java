@@ -1,16 +1,17 @@
 package com.newsletter.user.config;
 
+import com.newsletter.user.enums.Role;
 import com.newsletter.user.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
@@ -81,14 +82,29 @@ public class JwtTokenUtil implements Serializable {
    */
 //generate token for user
   public String generateToken(User user) {
-    Map<String, Object> claims = new HashMap<>();
+    final Map<String, Object> claims = new ConcurrentHashMap<>();
+    claims.put("Authorization",
+        List.of(new SimpleGrantedAuthority(user.getRole().toString())));
+
     return doGenerateToken(claims, user.getEmail());
+  }
+
+  /**
+   * Gets authorization role from token.
+   *
+   * @param token the token
+   * @return the authorization role from token
+   */
+  public List<Object> getAuthorizationRoleFromToken(String token) {
+    return getClaimFromToken(token,
+        claims -> claims.get("Authorization", List.class));
   }
 
   // compaction of the JWT to a URL-safe string
   private String doGenerateToken(Map<String, Object> claims, String subject) {
 
-    return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+    return Jwts.builder().setClaims(claims).setSubject(subject)
+        .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
         .signWith(SignatureAlgorithm.HS512, secret).compact();
   }

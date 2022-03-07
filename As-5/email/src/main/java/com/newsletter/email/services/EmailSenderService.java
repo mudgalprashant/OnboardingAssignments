@@ -15,6 +15,9 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 
+/**
+ * The type Email sender service.
+ */
 @Service
 public class EmailSenderService {
   @Value("${spring.mail.username}")
@@ -38,6 +41,11 @@ public class EmailSenderService {
   @Value("${spring.mail.port}")
   private int mailPort;
 
+  /**
+   * Send email.
+   *
+   * @param email the email
+   */
   public void sendEmail(Email email) {
     final Properties prop = new Properties();
     prop.put("mail.smtp.host", mailHost);

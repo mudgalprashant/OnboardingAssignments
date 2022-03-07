@@ -16,10 +16,18 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Kafka consumer config.
+ */
 @Configuration
 @EnableKafka
 public class KafkaConsumerConfig {
 
+  /**
+   * Consumer factory consumer factory.
+   *
+   * @return the consumer factory
+   */
   @Bean
   ConsumerFactory<String, Email> consumerFactory() {
     Map<String, Object> props = new HashMap<>();
@@ -31,6 +39,11 @@ public class KafkaConsumerConfig {
     return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<Email>());
   }
 
+  /**
+   * Kafka listener container factory concurrent kafka listener container factory.
+   *
+   * @return the concurrent kafka listener container factory
+   */
   @Bean
   public ConcurrentKafkaListenerContainerFactory<String, Email> kafkaListenerContainerFactory() {
     ConcurrentKafkaListenerContainerFactory<String, Email>

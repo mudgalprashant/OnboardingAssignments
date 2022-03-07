@@ -1,6 +1,22 @@
 package com.newsletter.user.enums;
 
-public enum Role {
-  PUBLISHER,
-  SUBSCRIBER
+import org.springframework.security.core.GrantedAuthority;
+
+/**
+ * The enum Role.
+ */
+public enum Role implements GrantedAuthority {
+  /**
+   * Role publisher role.
+   */
+  ROLE_PUBLISHER,
+  /**
+   * Role subscriber role.
+   */
+  ROLE_SUBSCRIBER;
+
+  @Override
+  public String getAuthority() {
+    return name();
+  }
 }

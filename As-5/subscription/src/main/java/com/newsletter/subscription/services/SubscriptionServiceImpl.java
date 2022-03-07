@@ -18,6 +18,7 @@ import java.util.Set;
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService{
 
+  @Autowired
   private final SubscriptionRepo subscriptionRepo;
 
   @Override
@@ -51,6 +52,10 @@ public class SubscriptionServiceImpl implements SubscriptionService{
   @Override
   public void delete(String id) {
     subscriptionRepo.deleteById(id);
+  }
+  @Override
+  public void deleteAll() {
+    subscriptionRepo.deleteAll();
   }
 
   private void copyNonNull(Object source, Object destination){

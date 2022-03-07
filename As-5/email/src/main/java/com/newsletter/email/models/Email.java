@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+/**
+ * The type Email.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

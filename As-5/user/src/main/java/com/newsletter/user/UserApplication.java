@@ -26,8 +26,4 @@ public class UserApplication {
    *
    * @return the password encoder
    */
-  @Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 }
