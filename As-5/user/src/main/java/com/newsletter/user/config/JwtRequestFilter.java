@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.newsletter.user.constants.Constant;
+import com.newsletter.user.constants.MessageConstant;
 import com.newsletter.user.models.User;
 import com.newsletter.user.services.UserDetailsServiceImpl;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,13 +53,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       jwtToken = requestTokenHeader.substring(7);
       try {
         email = jwtTokenUtil.getEmailFromToken(jwtToken);
-      } catch (IllegalArgumentException e) {
-        logger.error(Constant.JWT_FETCH_FAILED);
-      } catch (ExpiredJwtException e) {
-        logger.error(Constant.JWT_EXPIRED);
+      } catch (IllegalArgumentException exception) {
+        logger.error(MessageConstant.JWT_FETCH_FAILED);
+      } catch (ExpiredJwtException exception) {
+        logger.error(MessageConstant.JWT_EXPIRED);
+      } catch(Exception exception) {
+        logger.error(MessageConstant.INVALID_JWT_TOKEN);
       }
     } else {
-      logger.warn(Constant.JWT_WITHOUT_BEARER);
+      logger.warn(MessageConstant.JWT_WITHOUT_BEARER);
     }
 
     // Once we get the token validate it.

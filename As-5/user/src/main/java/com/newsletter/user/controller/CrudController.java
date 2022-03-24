@@ -1,10 +1,13 @@
 package com.newsletter.user.controller;
 
+import com.newsletter.user.config.JwtTokenUtil;
 import com.newsletter.user.constants.Constant;
-import com.newsletter.user.dto.CreateUserRequestDto;
-import com.newsletter.user.dto.UnauthorizedResponseDto;
+import com.newsletter.user.constants.MessageConstant;
+import com.newsletter.user.constants.PathConstant;
+import com.newsletter.user.dto.ApiResponseDto;
+import com.newsletter.user.dto.UserRequestDto;
+import com.newsletter.user.dto.UserResponseDto;
 import com.newsletter.user.mapper.UserMapper;
-import com.newsletter.user.models.User;
 import com.newsletter.user.services.AuthServiceImpl;
 import com.newsletter.user.services.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
@@ -12,13 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
  * The type User crud controller.
  */
 @AllArgsConstructor
-@RequestMapping(Constant.CRUD_MAPPING)
+@RequestMapping(PathConstant.CRUD_MAPPING)
 @RestController
 public class CrudController {
 
@@ -31,25 +36,42 @@ public class CrudController {
   @Autowired
   private final AuthServiceImpl authService;
 
+  @Autowired
+  private final JwtTokenUtil jwtTokenUtil;
+
 
   /**
    * Create user response entity.
    *
-   * @param createUserRequestDto the user request dto
+   * @param userRequestDto the user request dto
    * @return the response entity
    */
   @PostMapping
-  ResponseEntity<Object> createUser(@RequestBody CreateUserRequestDto createUserRequestDto) {
-    return ResponseEntity.ok(
-        userMapper
-            .userToResponseDto(
-                userService
-                    .createUser(
-                    userMapper
-                        .RequestDtoToUser(createUserRequestDto)
-                )
-            )
-    );
+  ResponseEntity<ApiResponseDto> createUser(@RequestBody UserRequestDto userRequestDto) {
+
+    ApiResponseDto apiResponseDto = new ApiResponseDto();
+
+    try {
+      UserResponseDto userResponseDto =
+          userMapper.userToResponseDto(
+              userService.createUser(
+                  userMapper.requestDtoToUser(userRequestDto)
+              )
+          );
+      apiResponseDto.setBody(userResponseDto);
+      apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+      apiResponseDto.setMessage(MessageConstant.SUCCESS);
+
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.USER_CREATION_FAILED);
+    }
+
+    return ResponseEntity.ok(apiResponseDto);
+
   }
 
   /**
@@ -58,14 +80,30 @@ public class CrudController {
    * @return the all users
    */
   @GetMapping
-  ResponseEntity<Object> getAllUsers() {
-    return ResponseEntity.ok(
-        userService
-            .getAllUser()
-            .stream()
-            .map(userMapper::userToResponseDto)
-            .collect(Collectors.toList())
-    );
+  ResponseEntity<ApiResponseDto> getAllUsers() {
+
+    ApiResponseDto apiResponseDto = new ApiResponseDto();
+
+    try {
+
+      List<UserResponseDto> userList = userService
+          .getAllUser()
+          .stream()
+          .map(userMapper::userToResponseDto)
+          .collect(Collectors.toList());
+      apiResponseDto.setBody(userList);
+      apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+      apiResponseDto.setMessage(MessageConstant.SUCCESS);
+
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.USER_LIST_FETCH_FAILED);
+    }
+
+    return ResponseEntity.ok(apiResponseDto);
   }
 
   /**
@@ -74,11 +112,33 @@ public class CrudController {
    * @param id the id
    * @return the user by id
    */
-  @GetMapping(Constant.BY_ID_MAPPING)
-  ResponseEntity<Object> getUserById(@PathVariable Long id) {
-    return ResponseEntity.ok(
-        userMapper.userToResponseDto(userService.getUserById(id))
-    );
+  @GetMapping(PathConstant.BY_ID_MAPPING)
+  ResponseEntity<ApiResponseDto> getUserById(@PathVariable Long id) {
+
+    ApiResponseDto apiResponseDto = new ApiResponseDto();
+
+    try {
+      UserResponseDto userResponseDto =
+          userMapper.userToResponseDto(userService.getUserById(id));
+
+      apiResponseDto.setBody(userResponseDto);
+      apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+      apiResponseDto.setMessage(MessageConstant.SUCCESS);
+
+    } catch (NoSuchElementException exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.USER_NOT_FOUND);
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.USER_FETCH_FAILED);
+    }
+
+    return ResponseEntity.ok(apiResponseDto);
   }
 
 
@@ -88,55 +148,150 @@ public class CrudController {
    * @param email the email
    * @return the user by email
    */
-  @GetMapping(Constant.BY_EMAIL_MAPPING)
-  ResponseEntity<Object> getUserByEmail(@PathVariable String email) {
-    return ResponseEntity.ok(
-        userMapper.userToResponseDto(userService.getUserByEmail(email))
-    );
+  @GetMapping(PathConstant.BY_EMAIL_MAPPING)
+  ResponseEntity<ApiResponseDto> getUserByEmail(@PathVariable String email) {
+
+    ApiResponseDto apiResponseDto = new ApiResponseDto();
+
+    try {
+      UserResponseDto userResponseDto =
+          userMapper.userToResponseDto(userService.getUserByEmail(email));
+
+      apiResponseDto.setBody(userResponseDto);
+      apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+      apiResponseDto.setMessage(MessageConstant.SUCCESS);
+
+    } catch (NoSuchElementException exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.USER_NOT_FOUND);
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.USER_FETCH_FAILED);
+    }
+
+    return ResponseEntity.ok(apiResponseDto);
+  }
+
+  /**
+   * Gets user by token.
+   *
+   * @param bearer the bearer
+   * @return the user by token
+   */
+  @GetMapping(PathConstant.BY_TOKEN_MAPPING)
+  ResponseEntity<ApiResponseDto> getUserByToken(
+      @RequestHeader(Constant.SECURITY_HEADER) String bearer) {
+    ApiResponseDto apiResponseDto = new ApiResponseDto();
+
+    String email = jwtTokenUtil.getEmailFromToken(bearer.substring(7));
+    return getUserByEmail(email);
+
   }
 
   /**
    * Update user response entity.
    *
-   * @param token                the token
-   * @param createUserRequestDto the user request dto
-   * @param id                   the id
+   * @param bearer         the bearer
+   * @param userRequestDto the user request dto
    * @return the response entity
    */
-  @PutMapping(Constant.BY_ID_MAPPING)
-  ResponseEntity<Object> updateUser(
-      @RequestHeader(Constant.SECURITY_HEADER) String token,
-      @RequestBody CreateUserRequestDto createUserRequestDto,
-      @PathVariable Long id) {
-    if (
-        !authService.isUserAuthorized(
-        userMapper.RequestDtoToUser(createUserRequestDto), token)
-    ) {
-      return ResponseEntity.status(401).body(new UnauthorizedResponseDto());
-    }
-    User user = userMapper.RequestDtoToUser(createUserRequestDto);
-    user = userService.updateUser(user, id);
-    return ResponseEntity.ok(
-        userMapper.userToResponseDto(user)
-    );
+  @PutMapping
+  ResponseEntity<ApiResponseDto> updateUser(
+      @RequestHeader(Constant.SECURITY_HEADER) String bearer,
+      @RequestBody UserRequestDto userRequestDto) {
+
+    ApiResponseDto apiResponseDto = new ApiResponseDto();
+
+    // Authorize user and update
+      try{
+        if (authService.isUserAuthorized(bearer)) {
+
+          UserResponseDto userResponseDto =
+              userMapper.userToResponseDto(
+                  userService.updateUser(
+                      userMapper.requestDtoToUser(userRequestDto),
+                      userService
+                          .getUserByEmail(jwtTokenUtil.getEmailFromToken(bearer.substring(7)))
+                          .getId()
+                  )
+              );
+
+          apiResponseDto.setBody(userResponseDto);
+          apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+          apiResponseDto.setMessage(MessageConstant.SUCCESS);
+        } else {
+          apiResponseDto.setStatus(MessageConstant.DENIED);
+          apiResponseDto.setMessage(MessageConstant.UNAUTHORIZED_ACCESS);
+        }
+
+      } catch (NoSuchElementException exception) {
+        exception.printStackTrace();
+
+        apiResponseDto.setStatus(MessageConstant.DENIED);
+        apiResponseDto.setMessage(MessageConstant.USER_NOT_FOUND);
+
+      } catch (Exception exception) {
+        exception.printStackTrace();
+
+        apiResponseDto.setStatus(MessageConstant.DENIED);
+        apiResponseDto.setMessage(MessageConstant.USER_UPDATE_FAILED);
+      }
+
+
+    return ResponseEntity.ok(apiResponseDto);
+
   }
 
   /**
    * Delete user.
    *
-   * @param token the token
-   * @param id    the id
+   * @param bearer the bearer
    * @return the response entity
    */
-  @DeleteMapping(Constant.BY_ID_MAPPING)
-  ResponseEntity<Object> deleteUser(
-      @RequestHeader(Constant.SECURITY_HEADER) String token,
-      @PathVariable Long id) {
-    if (!authService.isUserAuthorized(userService.getUserById(id), token)) {
-      return ResponseEntity.status(401).body(new UnauthorizedResponseDto());
+  @DeleteMapping
+  ResponseEntity<ApiResponseDto> deleteUser(
+      @RequestHeader(Constant.SECURITY_HEADER) String bearer) {
+
+    ApiResponseDto apiResponseDto = new ApiResponseDto();
+
+    try{
+      // Authorize user and delete
+
+      if (authService.isUserAuthorized(bearer)) {
+        userService.deleteUser(
+            userService
+                .getUserByEmail(jwtTokenUtil.getEmailFromToken(bearer.substring(7)))
+                .getId()
+        );
+        apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+        apiResponseDto.setMessage(MessageConstant.SUCCESS);
+
+      } else {
+        apiResponseDto.setStatus(MessageConstant.DENIED);
+        apiResponseDto.setMessage(MessageConstant.UNAUTHORIZED_ACCESS);
+      }
+
+    } catch (NoSuchElementException exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.USER_NOT_FOUND);
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.USER_DELETION_FAILED);
     }
-    userService.deleteUser(id);
-    return ResponseEntity.accepted().build();
+
+
+    return ResponseEntity.ok(apiResponseDto);
+
   }
 
 

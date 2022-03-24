@@ -1,6 +1,6 @@
 package com.newsletter.subscription.config;
 
-import com.newsletter.subscription.constants.Constant;
+import com.newsletter.subscription.constants.UtilityConstant;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,8 +15,8 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  * The type Elasticsearch config.
  */
 @Configuration
-@EnableElasticsearchRepositories(basePackages = Constant.ES_REPO_BASE_PACKAGE)
-@ComponentScan(basePackages = { Constant.ES_COMPONENT_BASE_PACKAGE })
+@EnableElasticsearchRepositories(basePackages = UtilityConstant.ES_REPO_BASE_PACKAGE)
+@ComponentScan(basePackages = { UtilityConstant.ES_COMPONENT_BASE_PACKAGE })
 public class ElasticsearchConfig {
 
   /**

@@ -23,6 +23,8 @@ public class Subscription {
 
   private String email;
 
+  private Long publisherId;
+
   @Enumerated
   private Category category;
 

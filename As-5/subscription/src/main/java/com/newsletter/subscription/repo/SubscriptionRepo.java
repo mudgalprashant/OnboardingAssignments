@@ -1,5 +1,6 @@
 package com.newsletter.subscription.repo;
 
+import com.newsletter.subscription.constants.QueryConstant;
 import com.newsletter.subscription.models.Subscription;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
@@ -19,7 +20,13 @@ public interface SubscriptionRepo extends ElasticsearchRepository<Subscription, 
    * @param query the query
    * @return the list
    */
-  @Query("{\"multi_match\": {\"query\": \".*?0.*\", \"fields\": [\"name\"], \"fuzziness\" : \"AUTO\", \"prefix_length\" : 2}}")
-  List<Subscription> search (String query);
+  @Query(QueryConstant.SEARCH_BY_NAME_QUERY)
+  List<Subscription> searchByName (String query);
+
+  @Query(QueryConstant.SEARCH_BY_CATEGORY_QUERY)
+  List<Subscription> searchByCategory(String query);
+
+  @Query(QueryConstant.SEARCH_BY_PUBLISHER_ID_QUERY)
+  List<Subscription> searchByPublisherId(Long query);
 
 }

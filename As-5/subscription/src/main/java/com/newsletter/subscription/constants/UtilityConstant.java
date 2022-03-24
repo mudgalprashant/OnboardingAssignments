@@ -1,9 +1,9 @@
 package com.newsletter.subscription.constants;
 
 /**
- * The type Constant.
+ * The type Utility Constant.
  */
-public class Constant {
+public class UtilityConstant {
 
   /**
    * The constant ES_REPO_BASE_PACKAGE.
@@ -15,19 +15,24 @@ public class Constant {
    */
   public static final String ES_COMPONENT_BASE_PACKAGE = "com.newsletter.subscription.service";
 
-  /**
-   * The constant SUBSCRIPTIONS_MAPPING.
-   */
-  public static final String SUBSCRIPTIONS_MAPPING = "/subscriptions";
+  public static final String SECURITY_HEADER = "Authorization";
 
   /**
-   * The constant BY_ID_MAPPING.
+   * The constant USER_SERVICE_FC_NAME.
    */
-  public static final String BY_ID_MAPPING = "/{id}";
+  public static final String USER_SERVICE_FC_NAME =
+      "user-service";
 
   /**
-   * The constant SEARCH_MAPPING.
+   * The constant USER_SERVICE_FC_URL.
    */
-  public static final String SEARCH_MAPPING = "/search";
+  public static final String USER_SERVICE_FC_URL =
+      "http://localhost:8080";
+
+
+
+
+
+
 
 }

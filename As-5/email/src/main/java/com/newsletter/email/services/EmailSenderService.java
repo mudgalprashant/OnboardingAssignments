@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
@@ -67,10 +64,9 @@ public class EmailSenderService {
     try {
       final Message message = new MimeMessage(session);
       message.setFrom(new InternetAddress(mailUsername));
-      message.setRecipients(
-          Message.RecipientType.TO,
-          InternetAddress.parse(email.getReceiver())
-      );
+      for (String receiverEmail : email.getReceiverList()) {
+        message.addRecipient(Message.RecipientType.CC, InternetAddress.parse(receiverEmail)[0]);
+      }
       message.setSubject(email.getSubject());
       message.setText(email.getContent());
 

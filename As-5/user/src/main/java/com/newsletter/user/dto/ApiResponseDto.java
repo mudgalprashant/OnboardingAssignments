@@ -1,6 +1,5 @@
 package com.newsletter.user.dto;
 
-import com.newsletter.user.constants.Constant;
 import lombok.Data;
 
 /**
@@ -9,5 +8,7 @@ import lombok.Data;
 @Data
 public class ApiResponseDto {
   private String status;
+  private String message;
   private Object body;
+
 }

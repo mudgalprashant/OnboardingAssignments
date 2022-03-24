@@ -1,6 +1,7 @@
 package com.newsletter.user.services;
 
 import com.newsletter.user.constants.Constant;
+import com.newsletter.user.constants.MessageConstant;
 import com.newsletter.user.enums.Role;
 import com.newsletter.user.models.User;
 import com.newsletter.user.repo.UserRepo;
@@ -143,7 +144,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return mapUserToUserDetails(
         userRepo
             .findByEmail(email)
-            .orElseThrow(() -> new UsernameNotFoundException(Constant.USER_NOT_FOUND_MESSAGE))
+            .orElseThrow(() -> new UsernameNotFoundException(MessageConstant.USER_NOT_FOUND))
     );
   }
 

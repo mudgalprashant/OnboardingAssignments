@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * The type Email.
@@ -15,7 +16,7 @@ import java.io.Serializable;
 public class Email implements Serializable {
 
   private String sender;
-  private String receiver;
+  private List<String> receiverList;
   private String subject;
   private String content;
 

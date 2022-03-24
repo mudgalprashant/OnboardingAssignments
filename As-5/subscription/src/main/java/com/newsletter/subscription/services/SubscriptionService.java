@@ -39,7 +39,11 @@ public interface SubscriptionService {
    * @param query the query
    * @return the list
    */
-  List<Subscription> search(String query);
+  List<Subscription> searchByName(String query);
+
+  List<Subscription> searchByCategory(String query);
+
+  List<Subscription> searchByPublisherId(Long query);
 
   /**
    * Update subscription.

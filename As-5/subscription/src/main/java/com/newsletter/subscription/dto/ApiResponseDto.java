@@ -1,4 +1,4 @@
-package com.newsletter.email.dto;
+package com.newsletter.subscription.dto;
 
 import lombok.Data;
 

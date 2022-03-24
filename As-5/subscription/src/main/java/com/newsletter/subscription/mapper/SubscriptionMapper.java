@@ -10,20 +10,11 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface SubscriptionMapper {
 
-  /**
-   * Subscription to dto subscription dto.
-   *
-   * @param subscription the subscription
-   * @return the subscription dto
-   */
+
   SubscriptionDto subscriptionToDto(Subscription subscription);
 
-  /**
-   * Dto to subscription subscription.
-   *
-   * @param subscriptionDto the subscription dto
-   * @return the subscription
-   */
   Subscription dtoToSubscription(SubscriptionDto subscriptionDto);
+
+
 
 }

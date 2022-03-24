@@ -5,7 +5,7 @@ package com.newsletter.order.constants;
  */
 public class Constant {
 
-  public static final String ORDERS_MAPPING = "/orders";
+  public static final String BASE_MAPPING = "/orders";
 
   public static final String CACHE_VALUE = "orders";
 

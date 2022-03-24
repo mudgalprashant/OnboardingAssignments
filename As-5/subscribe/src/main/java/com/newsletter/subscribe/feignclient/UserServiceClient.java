@@ -22,17 +22,18 @@ public interface UserServiceClient {
    * @return the user by id
    */
   @GetMapping(Constant.USER_SERVICE_GET_BY_ID_MAPPING)
-  ResponseEntity<Object> getUserById(@PathVariable Long id);
+  ResponseEntity<ApiResponseDto> getUserById(@PathVariable Long id);
 
   /**
    * Authorize subscriber response entity.
    *
-   * @param token the token
-   * @param id    the id
    * @return the response entity
    */
   @GetMapping(Constant.USER_SERVICE_AUTHORIZE_SUBSCRIBER_MAPPING)
   ResponseEntity<ApiResponseDto> authorizeSubscriber(
-      @RequestHeader(Constant.SECURITY_HEADER) String token,
-      @PathVariable Long id);
+      @RequestHeader(Constant.SECURITY_HEADER) String bearer);
+
+  @GetMapping(Constant.USER_SERVICE_BY_TOKEN_MAPPING)
+  ResponseEntity<ApiResponseDto> getUserByToken(
+      @RequestHeader(Constant.SECURITY_HEADER) String bearer);
 }

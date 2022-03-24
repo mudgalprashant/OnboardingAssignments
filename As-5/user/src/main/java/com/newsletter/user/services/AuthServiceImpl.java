@@ -1,5 +1,6 @@
 package com.newsletter.user.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.newsletter.user.config.JwtTokenUtil;
 import com.newsletter.user.enums.Role;
 import com.newsletter.user.models.User;
@@ -21,17 +22,19 @@ public class AuthServiceImpl implements AuthService{
   @Autowired
   private JwtTokenUtil jwtTokenUtil;
 
+  @Autowired
+  private UserDetailsServiceImpl userDetailsService;
+
+
   @Override
-  public boolean isSubscriberAuthorized(User user, String bearer) {
+  public boolean isSubscriberAuthorized(String bearer) {
     boolean authorized = false;
     try {
-      authorized = user.getRole() == Role.ROLE_SUBSCRIBER
-          && ((LinkedHashMap<String, String>)
-          jwtTokenUtil
-              .getAuthorizationRoleFromToken(bearer.substring(7))
-              .get(0))
-          .get("authority")
-          .equalsIgnoreCase(user.getRole().toString());
+
+      String email = jwtTokenUtil.getEmailFromToken(bearer.substring(7));
+      User user = userDetailsService.getUserByEmail(email);
+
+      authorized = user.getRole() == Role.ROLE_SUBSCRIBER;
     } catch (Exception exception) {
       exception.printStackTrace();
     }
@@ -39,16 +42,12 @@ public class AuthServiceImpl implements AuthService{
   }
 
   @Override
-  public boolean isPublisherAuthorized(User user, String bearer) {
+  public boolean isPublisherAuthorized(String bearer) {
     boolean authorized = false;
     try {
-      authorized = user.getRole() == Role.ROLE_PUBLISHER
-          && ((LinkedHashMap<String, String>)
-          jwtTokenUtil
-              .getAuthorizationRoleFromToken(bearer.substring(7))
-              .get(0))
-          .get("authority")
-          .equalsIgnoreCase(user.getRole().toString());
+      String email = jwtTokenUtil.getEmailFromToken(bearer.substring(7));
+      User user = userDetailsService.getUserByEmail(email);
+      authorized = user.getRole() == Role.ROLE_PUBLISHER;
     } catch (Exception exception) {
       exception.printStackTrace();
     }
@@ -56,17 +55,14 @@ public class AuthServiceImpl implements AuthService{
   }
 
   @Override
-  public boolean isUserAuthorized(User user, String bearer) {
-    boolean authorized = false;
+  public boolean isUserAuthorized(String bearer) {
+    boolean authorized;
     try {
-      authorized = ((LinkedHashMap<String, String>)
-          jwtTokenUtil
-              .getAuthorizationRoleFromToken(bearer.substring(7))
-              .get(0))
-          .get("authority")
-          .equalsIgnoreCase(user.getRole().toString());
+      jwtTokenUtil.getEmailFromToken(bearer.substring(7));
+      authorized = true;
     } catch (Exception exception) {
       exception.printStackTrace();
+      authorized = false;
     }
     return authorized;
   }

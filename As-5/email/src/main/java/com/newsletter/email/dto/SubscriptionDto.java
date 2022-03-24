@@ -1,6 +1,6 @@
-package com.newsletter.subscribe.dto;
+package com.newsletter.email.dto;
 
-import com.newsletter.subscribe.enums.Category;
+import com.newsletter.email.enums.Category;
 import lombok.Data;
 
 /**
@@ -11,7 +11,6 @@ public class SubscriptionDto {
   private String id;
   private String name;
   private String email;
-  private Long publisherId;
   private Category category;
   private Double price;
   private Boolean renewable;

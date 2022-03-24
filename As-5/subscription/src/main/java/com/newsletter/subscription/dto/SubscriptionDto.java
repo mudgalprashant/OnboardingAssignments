@@ -11,6 +11,7 @@ public class SubscriptionDto {
   private String id;
   private String name;
   private String email;
+  private Long publisherId;
   private Category category;
   private Double price;
   private Boolean renewable;

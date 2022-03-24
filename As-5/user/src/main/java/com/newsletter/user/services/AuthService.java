@@ -9,27 +9,24 @@ public interface AuthService {
   /**
    * Authorize subscriber boolean.
    *
-   * @param user   the user
    * @param bearer the bearer
    * @return the boolean
    */
-  boolean isSubscriberAuthorized(User user, String bearer);
+  boolean isSubscriberAuthorized(String bearer);
 
   /**
    * Authorize publisher boolean.
    *
-   * @param user   the user
    * @param bearer the bearer
    * @return the boolean
    */
-  boolean isPublisherAuthorized(User user, String bearer);
+  boolean isPublisherAuthorized(String bearer);
 
   /**
    * Is user authorized boolean.
    *
-   * @param user   the user
    * @param bearer the bearer
    * @return the boolean
    */
-  boolean isUserAuthorized(User user, String bearer);
+  boolean isUserAuthorized(String bearer);
 }

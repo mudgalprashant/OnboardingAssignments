@@ -2,6 +2,8 @@ package com.newsletter.user.controller;
 
 import com.newsletter.user.config.JwtTokenUtil;
 import com.newsletter.user.constants.Constant;
+import com.newsletter.user.constants.MessageConstant;
+import com.newsletter.user.constants.PathConstant;
 import com.newsletter.user.dto.ApiResponseDto;
 import com.newsletter.user.models.JwtRequest;
 import com.newsletter.user.models.JwtResponse;
@@ -10,7 +12,6 @@ import com.newsletter.user.services.AuthServiceImpl;
 import com.newsletter.user.services.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,10 +23,9 @@ import org.springframework.web.bind.annotation.*;
 /**
  * The type User login controller.
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
 @AllArgsConstructor
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(PathConstant.AUTH_MAPPING)
 public class AuthController {
 
   @Autowired
@@ -37,8 +37,6 @@ public class AuthController {
   @Autowired
   private final AuthServiceImpl authService;
 
-  private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
   private final AuthenticationManager authenticationManager;
 
   /**
@@ -46,90 +44,138 @@ public class AuthController {
    *
    * @param authRequest the auth request
    * @return the response entity
-   * @throws Exception the exception
    */
-  @PostMapping(Constant.CREATE_AUTH_TOKEN_MAPPING)
-  @CachePut(value = "users")
-  ResponseEntity<JwtResponse> createAuthToken (@RequestBody JwtRequest authRequest) throws Exception {
-    authenticate(authRequest.getEmail(), authRequest.getPassword());
+  @PostMapping(PathConstant.CREATE_AUTH_TOKEN_MAPPING)
+  ResponseEntity<ApiResponseDto> createAuthToken (@RequestBody JwtRequest authRequest){
 
-    final User user = userService
-        .getUserByEmail(authRequest.getEmail());
+    ApiResponseDto apiResponseDto = new ApiResponseDto();
 
-    final String token = jwtTokenUtil.generateToken(user);
+    String token = Constant.EMPTY_STRING;
 
-    return ResponseEntity.ok(new JwtResponse(token));
+    try {
+      // Authenticate user with email and password
+      authenticate(authRequest.getEmail(), authRequest.getPassword());
+
+      // Get user by email
+      final User user = userService
+          .getUserByEmail(authRequest.getEmail());
+
+      // Generate token for user
+      token = jwtTokenUtil.generateToken(user);
+
+      apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+      apiResponseDto.setMessage(MessageConstant.SUCCESS);
+
+    } catch (Exception exception) {
+
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.LOGIN_FAILED);
+    }
+
+    apiResponseDto.setBody(new JwtResponse(token));
+    // Return response
+    return ResponseEntity.ok(apiResponseDto);
   }
 
   /**
    * Authorize subscriber response entity.
    *
-   * @param token the token
-   * @param id    the id
+   * @param bearer the bearer
    * @return the response entity
    */
-  @GetMapping(Constant.AUTHORIZE_SUBSCRIBER_MAPPING)
+  @GetMapping(PathConstant.AUTHORIZE_SUBSCRIBER_MAPPING)
   ResponseEntity<ApiResponseDto> authorizeSubscriber(
-      @RequestHeader(Constant.SECURITY_HEADER) String token,
-      @PathVariable Long id) {
+      @RequestHeader(Constant.SECURITY_HEADER) String bearer) {
+
     ApiResponseDto apiResponseDto = new ApiResponseDto();
-    if (authService.isSubscriberAuthorized(userService.getUserById(id), token)) {
-      apiResponseDto.setStatus(Constant.ACCEPTED);
-    } else {
-      apiResponseDto.setStatus(Constant.DENIED);
+
+    try{
+      if(authService.isSubscriberAuthorized(bearer)) {
+        apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+        apiResponseDto.setMessage(MessageConstant.SUCCESS);
+      }else {
+        apiResponseDto.setStatus(MessageConstant.DENIED);
+        apiResponseDto.setMessage(MessageConstant.UNAUTHORIZED);
+      }
+    } catch (Exception exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.INVALID_JWT_TOKEN);
     }
+
+
     return ResponseEntity.ok(apiResponseDto);
   }
 
   /**
    * Authorize publisher response entity.
    *
-   * @param token the token
-   * @param id    the id
+   * @param bearer the bearer
    * @return the response entity
    */
-  @GetMapping(Constant.AUTHORIZE_PUBLISHER_MAPPING)
-  ResponseEntity<Object> authorizePublisher(
-      @RequestHeader(Constant.SECURITY_HEADER) String token,
-      @PathVariable Long id) {
+  @GetMapping(PathConstant.AUTHORIZE_PUBLISHER_MAPPING)
+  ResponseEntity<ApiResponseDto> authorizePublisher(
+      @RequestHeader(Constant.SECURITY_HEADER) String bearer) {
     ApiResponseDto apiResponseDto = new ApiResponseDto();
-    //User user = userService.getUserById(id);
-    if (authService.isPublisherAuthorized(userService.getUserById(id), token)) {
-      apiResponseDto.setStatus(Constant.ACCEPTED);
-    } else {
-      apiResponseDto.setStatus(Constant.DENIED);
+
+    try{
+      if(authService.isPublisherAuthorized(bearer)) {
+        apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+        apiResponseDto.setMessage(MessageConstant.SUCCESS);
+      }else {
+        apiResponseDto.setStatus(MessageConstant.DENIED);
+        apiResponseDto.setMessage(MessageConstant.UNAUTHORIZED);
+      }
+    } catch (Exception exception) {
+      exception.printStackTrace();
+
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.INVALID_JWT_TOKEN);
     }
-    return ResponseEntity.accepted().body(apiResponseDto);
+
+
+    return ResponseEntity.ok(apiResponseDto);
   }
 
   /**
    * Authorize user response entity.
    *
-   * @param token the token
-   * @param id    the id
+   * @param bearer the bearer
    * @return the response entity
    */
-  @GetMapping(Constant.AUTHORIZE_USER_MAPPING)
-  ResponseEntity<Object> authorizeUser(
-      @RequestHeader(Constant.SECURITY_HEADER) String token,
-      @PathVariable Long id) {
+  @GetMapping(PathConstant.AUTHORIZE_USER_MAPPING)
+  ResponseEntity<ApiResponseDto> authorizeUser(
+      @RequestHeader(Constant.SECURITY_HEADER) String bearer) {
     ApiResponseDto apiResponseDto = new ApiResponseDto();
-    //User user = userService.getUserById(id);
-    if (authService.isUserAuthorized(userService.getUserById(id), token)) {
-      apiResponseDto.setStatus(Constant.ACCEPTED);
-    } else {
-      apiResponseDto.setStatus(Constant.DENIED);
-    }
-    return ResponseEntity.accepted().body(apiResponseDto);
+
+    try {
+
+      if(authService.isUserAuthorized(bearer)) {
+        apiResponseDto.setStatus(MessageConstant.ACCEPTED);
+        apiResponseDto.setMessage(MessageConstant.SUCCESS);
+      }else {
+        apiResponseDto.setStatus(MessageConstant.DENIED);
+        apiResponseDto.setMessage(MessageConstant.UNAUTHORIZED);
+      }
+      } catch(Exception exception) {
+      exception.printStackTrace();
+      apiResponseDto.setStatus(MessageConstant.DENIED);
+      apiResponseDto.setMessage(MessageConstant.FAILED);
+      }
+
+    return ResponseEntity.ok(apiResponseDto);
   }
 
   private void authenticate(String email, String password) throws Exception {
     try {
       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
     } catch (DisabledException exception) {
-      throw new Exception(Constant.USER_DISABLED, exception);
+      throw new Exception(MessageConstant.USER_DISABLED, exception);
     } catch (BadCredentialsException exception) {
-      throw new Exception(Constant.INVALID_CREDENTIALS, exception);
+      throw new Exception(MessageConstant.INVALID_CREDENTIALS, exception);
     }
   }
 

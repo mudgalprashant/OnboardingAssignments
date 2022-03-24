@@ -21,17 +21,18 @@ public interface UserServiceClient {
    * @return the user by email
    */
   @GetMapping(Constant.USER_SERVICE_GET_BY_EMAIL_MAPPING)
-  ResponseEntity<Object> getUserByEmail(@PathVariable String email);
+  ResponseEntity<ApiResponseDto> getUserByEmail(@PathVariable String email);
+
+  @GetMapping(Constant.USER_SERVICE_GET_BY_ID_MAPPING)
+  ResponseEntity<ApiResponseDto> getUserById(@PathVariable Long id);
 
   /**
    * Authorize publisher response entity.
    *
    * @param token the token
-   * @param id    the id
    * @return the response entity
    */
   @GetMapping(Constant.USER_SERVICE_AUTHORIZE_PUBLISHER_MAPPING)
   ResponseEntity<ApiResponseDto> authorizePublisher(
-      @RequestHeader(Constant.SECURITY_HEADER) String token,
-      @PathVariable Long id);
+      @RequestHeader(Constant.SECURITY_HEADER) String token);
 }

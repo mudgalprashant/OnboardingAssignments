@@ -2,10 +2,13 @@ package com.newsletter.subscription;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * The type Subscription application.
  */
+
+@EnableFeignClients
 @SpringBootApplication
 public class SubscriptionApplication {
 

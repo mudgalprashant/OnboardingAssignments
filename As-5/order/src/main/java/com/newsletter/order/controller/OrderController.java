@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @AllArgsConstructor
 @RestController
-@RequestMapping("/order")
+@RequestMapping(Constant.BASE_MAPPING)
 public class OrderController {
 
   @Autowired
@@ -31,7 +31,7 @@ public class OrderController {
    * @param orderRequestDto the order request dto
    * @return the response entity
    */
-  @PostMapping(Constant.ORDERS_MAPPING)
+  @PostMapping
   ResponseEntity<Object> placeOrder(@RequestBody OrderRequestDto orderRequestDto) { // todo: verify order on the basis of status
     Order order = orderMapper.requestDtoToOrder(orderRequestDto);
     return ResponseEntity.ok(order);

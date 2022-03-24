@@ -40,8 +40,18 @@ public class SubscriptionServiceImpl implements SubscriptionService{
   }
 
   @Override
-  public List<Subscription> search(String query) {
-    return subscriptionRepo.search(query);
+  public List<Subscription> searchByName(String query) {
+    return subscriptionRepo.searchByName(query);
+  }
+
+  @Override
+  public List<Subscription> searchByCategory(String query) {
+    return subscriptionRepo.searchByCategory(query);
+  }
+
+  @Override
+  public List<Subscription> searchByPublisherId(Long query) {
+    return subscriptionRepo.searchByPublisherId(query);
   }
 
   @Override

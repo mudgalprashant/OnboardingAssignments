@@ -1,6 +1,7 @@
 package com.newsletter.user.config;
 
 import com.newsletter.user.constants.Constant;
+import com.newsletter.user.constants.PathConstant;
 import com.newsletter.user.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +12,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
         .formLogin()
-        .loginPage(Constant.LOGIN_PAGE)
+        .loginPage(PathConstant.LOGIN_PAGE_MAPPING)
         .usernameParameter(Constant.USERNAME_PARAMETER)
         .and()
         .logout();

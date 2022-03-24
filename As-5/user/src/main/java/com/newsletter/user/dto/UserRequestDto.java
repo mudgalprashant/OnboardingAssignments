@@ -8,7 +8,7 @@ import lombok.Data;
  * The type User dto.
  */
 @Data
-public class CreateUserRequestDto {
+public class UserRequestDto {
   private Long id;
   private String name;
   private String email;

@@ -4,23 +4,6 @@ package com.newsletter.subscribe.constants;
  * The type Constant.
  */
 public class Constant {
-  /**
-   * The constant SUCCESS_STATUS.
-   */
-  public static final String SUCCESS_STATUS = "Success";
-  /**
-   * The constant FAILURE_STATUS.
-   */
-  public static final String FAILURE_STATUS = "Failed";
-
-  /**
-   * The constant ACCEPTED.
-   */
-  public static final String ACCEPTED = "Y";
-  /**
-   * The constant DENIED.
-   */
-  public static final String DENIED = "N";
 
   /**
    * The constant SECURITY_HEADER.
@@ -92,7 +75,9 @@ public class Constant {
    * The constant USER_SERVICE_AUTHORIZE_SUBSCRIBER_MAPPING.
    */
   public static final String USER_SERVICE_AUTHORIZE_SUBSCRIBER_MAPPING =
-      "/newsletter/auth/authorize/subscriber/{id}";
+      "/newsletter/auth/authorize/subscriber";
 
 
+  public static final String USER_SERVICE_BY_TOKEN_MAPPING = "newsletter/users/token/jwt";
+  public static final String FIND_BY_SUBSCRIPTION_MAPPING = "/subscribe/subscription";
 }

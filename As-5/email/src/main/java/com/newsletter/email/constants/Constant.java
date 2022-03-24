@@ -18,11 +18,11 @@ public class Constant {
   /**
    * The constant SUCCESS_STATUS.
    */
-  public static final String SUCCESS_STATUS = "Success";
+  public static final String SUCCESS = "Success";
   /**
    * The constant FAILURE_STATUS.
    */
-  public static final String FAILURE_STATUS = "Failed";
+  public static final String FAILURE = "Failed";
 
   /**
    * The constant ACCEPTED.
@@ -78,5 +78,40 @@ public class Constant {
   public static final String USER_SERVICE_AUTHORIZE_PUBLISHER_MAPPING =
       "/newsletter/auth/authorize/publisher/{id}";
 
+  /**
+   * The constant BASE_MAPPING.
+   */
+  public static final String BASE_MAPPING = "/newsletter";
 
+  /**
+   * The constant PUBLISH_MAPPING.
+   */
+  public static final String PUBLISH_MAPPING = "/publish";
+
+  /**
+   * The constant SUBSCRIPTION_SERVICE_FC_URL.
+   */
+  public static final String SUBSCRIPTION_SERVICE_FC_URL =
+      "http://localhost:8081";
+
+  /**
+   * The constant SUBSCRIPTION_SERVICE_FC_NAME.
+   */
+  public static final String SUBSCRIPTION_SERVICE_FC_NAME =
+      "subscription-service";
+
+  /**
+   * The constant SUBSCRIPTION_SERVICE_GET_BY_ID_MAPPING.
+   */
+  public static final String SUBSCRIPTION_SERVICE_GET_BY_ID_MAPPING =
+      "/newsletter/subscriptions/{id}";
+  public static final String SUBSCRIPTION_SERVICE_SEARCH_BY_PUBLISHER_ID_MAPPING =
+      "/newsletter/subscriptions/search/publisherId";
+  public static final String SUBSCRIBE_SERVICE_FC_NAME =
+      "subscribe-service";
+  public static final String SUBSCRIBE_SERVICE_FC_URL =
+      "http://localhost:8082";
+  public static final String SUBSCRIBE_SERVICE_FIND_SUBSCRIBER_ID_BY_SUBSCRIPTION_ID_MAPPING =
+      "/newsletter/subscribe/subscription/{id}";
+  public static final String USER_SERVICE_GET_BY_ID_MAPPING = "/newsletter/users/{id}";
 }
